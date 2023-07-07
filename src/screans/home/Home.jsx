@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Marca, H1, Form } from './style';
 import FormLogin from '../../components/formLogin/FormLogin';
 
-import Icon from '../../utils/img/icons.png'
+// import Icon from '../../utils/img/icons.png'
 
 export default function Home() {
   return (
