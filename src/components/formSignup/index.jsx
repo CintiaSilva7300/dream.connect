@@ -11,6 +11,10 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
 import api from '../../utils/Api/api';
 
 export default function FormLogin() {
@@ -24,14 +28,26 @@ export default function FormLogin() {
 
   const navigate = useNavigate();
 
+  const [name, setName] = useState();
+  const [secondName, setSecondName] = useState();
   const [email, setEmail] = useState();
+  const [telephone, setTelephone] = useState();
+  const [genre, setGenre] = useState();
+  const [birthDate, setBirthDate] = useState();
   const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
 
   const loginUser = (e) => {
     api
-      .post('http://localhost:4000/user/login', {
-        password,
+      .post('http://localhost:4000/user', {
+        name,
+        secondName,
         email,
+        telephone,
+        genre,
+        birthDate,
+        password,
+        confirmPassword,
       })
       .then((response) => {
         console.log('response --> ', response);
@@ -40,7 +56,7 @@ export default function FormLogin() {
           navigate('/login');
         } else {
           navigate('/');
-          console.log('response.data --> ', response.data);
+          console.log('response.data --> ', response);
         }
       });
   };
@@ -56,7 +72,26 @@ export default function FormLogin() {
         width: '100vh',
       }}
     >
-      <h1>Fazer login</h1>
+      <h1 style={{ fontSize: 25, margin: 50 }}>
+        Faça parte de comunidade com seus fans!
+      </h1>
+      {/* <h1 style={{ fontSize: 20, margin: 10 }}>Criar conta</h1> */}
+
+      <TextField
+        onChange={(e) => setName(e.target.value)}
+        label="Name"
+        variant="outlined"
+        autocomplete="off"
+        style={{ width: '50%', margin: 10 }}
+      />
+
+      <TextField
+        onChange={(e) => setSecondName(e.target.value)}
+        label="Second Name"
+        variant="outlined"
+        autocomplete="off"
+        style={{ width: '50%', margin: 10 }}
+      />
 
       <TextField
         onChange={(e) => setEmail(e.target.value)}
@@ -64,6 +99,45 @@ export default function FormLogin() {
         variant="outlined"
         autocomplete="off"
         style={{ width: '50%', margin: 10 }}
+      />
+
+      <TextField
+        onChange={(e) => setTelephone(e.target.value)}
+        label="Telephone"
+        variant="outlined"
+        autocomplete="off"
+        style={{ width: '50%', margin: 10 }}
+      />
+      <TextField
+        onChange={(e) => setGenre(e.target.value)}
+        label="Genre"
+        variant="outlined"
+        autocomplete="off"
+        style={{ width: '50%', margin: 10 }}
+      />
+      {/* <TextField
+        onChange={(e) => setBirthDate(e.target.value)}
+        label="Birth Date"
+        variant="outlined"
+        autocomplete="off"
+        style={{ width: '50%', margin: 10 }}
+      /> */}
+
+      <div style={{ width: '50%', margin: 10 }}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            onChange={(e) => setBirthDate(e)}
+            className="fullwidth"
+            format="dd/MM/yyyy"
+          />
+        </LocalizationProvider>
+      </div>
+
+      <TextField
+        style={{ width: '50%', margin: 10 }}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        label="Confirm Password"
+        format="MM-DD-YYYY"
       />
 
       <FormControl sx={{ m: 1, width: '50%' }} variant="outlined">
@@ -99,8 +173,11 @@ export default function FormLogin() {
           borderRadius: 20,
         }}
       >
-        Entrar
+        Cadastrar-se
       </Button>
+      <a style={{ color: 'red' }} href="/login">
+        Ja possui conta?
+      </a>
     </div>
   );
 }

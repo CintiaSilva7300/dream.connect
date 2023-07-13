@@ -7,8 +7,6 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { Box, Marca, H1, Form, Card } from './style';
 import FormLogin from '../../components/formLogin/FormLogin';
 
-// import Icon from '../../utils/img/icons.png'
-
 export default function Login() {
   return (
     <>

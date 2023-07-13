@@ -5,3 +5,7 @@
 	font: inherit; 
 	vertical-align: baseline;
 }
+
+.fullwidth {
+	width: 100%;
+}
