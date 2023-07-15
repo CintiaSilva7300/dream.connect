@@ -17,19 +17,25 @@ import Check from '@mui/icons-material/Check';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router';
+import Files from 'react-files';
+import ImageIcon from '@mui/icons-material/Image';
+
 import api from '../../utils/Api/api';
+import PublicationCard from './components/publicationCard/index';
 
 export default function Publication() {
   const [italic, setItalic] = React.useState(false);
   const [fontWeight, setFontWeight] = React.useState('normal');
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [post, setPost] = React.useState(null); //post
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    var decodeToken = jwt_decode(token);
-    setUserData(decodeToken);
+    if (token) {
+      const decodeToken = jwt_decode(token);
+      setUserData(decodeToken);
+    }
   }, []);
 
   const navigate = useNavigate();
@@ -54,9 +60,25 @@ export default function Publication() {
       });
   };
 
+  // React.useEffect(() => {
+  //   api.get('http://localhost:4000/post').then((response) => {
+  //     setPost(response.data);
+  //     console.log('aaaaaa ->', response.data);
+  //   });
+  // }, []);
+  // if (!post) return null; //caso não tenha post retorna null
+
   if (!userData) {
-    return <p>...</p>;
+    return null; //caso não tenha post retorna null
   }
+
+  const handleChange = (files) => {
+    console.log(files);
+  };
+
+  const handleError = (error, file) => {
+    console.log('error code ' + error.code + ': ' + error.message);
+  };
 
   return (
     <Container maxWidth="sm">
@@ -122,6 +144,24 @@ export default function Publication() {
               >
                 <FormatItalic />
               </IconButton>
+
+              <div className="files">
+                <Files
+                  className="files-dropzone"
+                  onChange={handleChange}
+                  onError={handleError}
+                  accepts={['image/png', '.pdf', 'audio/*', '.jpeg']}
+                  multiple
+                  maxFileSize={10000000}
+                  minFileSize={0}
+                  clickable
+                >
+                  <ImageIcon
+                    style={{ cursor: 'pointer', marginTop: 8, color: '#000' }}
+                  />
+                </Files>
+              </div>
+
               <Button onClick={publication} sx={{ ml: 'auto' }}>
                 Publicar
               </Button>
@@ -134,9 +174,10 @@ export default function Publication() {
           }}
         />
       </FormControl>
+
+      <div style={{ marginTop: 25 }}>
+        <PublicationCard />
+      </div>
     </Container>
   );
 }
-
-// text
-// url_media

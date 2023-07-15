@@ -3,9 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 
@@ -17,8 +14,10 @@ export default function Header() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    var decodeToken = jwt_decode(token);
-    setUserData(decodeToken);
+    if (token) {
+      const decodeToken = jwt_decode(token);
+      setUserData(decodeToken);
+    }
   }, []);
 
   if (!userData) {
