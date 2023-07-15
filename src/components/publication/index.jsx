@@ -33,6 +33,7 @@ export default function Publication() {
 
   useEffect(() => {
     if (token) {
+      console.log('-----> ', token);
       const decodeToken = jwt_decode(token);
       setUserData(decodeToken);
     }
@@ -44,29 +45,23 @@ export default function Publication() {
   const [url_media, setUrl_media] = useState();
 
   const publication = (e) => {
+    // const formData = new FormData();
+    // formData.append('url_media', file);
+    // console.log('formData ->', file);
+
     api
       .post('http://localhost:4000/post', {
         text,
-        url_media,
+        url_media: 'https://via.placeholder.com/465x518',
       })
       .then((response) => {
-        localStorage.setItem('token', response.data.token);
         if (response.data === false) {
           return;
         } else {
           navigate('/');
-          console.log('response.data --> ', response);
         }
       });
   };
-
-  // React.useEffect(() => {
-  //   api.get('http://localhost:4000/post').then((response) => {
-  //     setPost(response.data);
-  //     console.log('aaaaaa ->', response.data);
-  //   });
-  // }, []);
-  // if (!post) return null; //caso não tenha post retorna null
 
   if (!userData) {
     return null; //caso não tenha post retorna null
@@ -150,7 +145,7 @@ export default function Publication() {
                   className="files-dropzone"
                   onChange={handleChange}
                   onError={handleError}
-                  accepts={['image/png', '.pdf', 'audio/*', '.jpeg']}
+                  accepts={['image/png', '.pdf', 'audio/*', '.jpeg', '.mp4/*']}
                   multiple
                   maxFileSize={10000000}
                   minFileSize={0}
