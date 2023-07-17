@@ -1,11 +1,9 @@
+import * as React from 'react';
 import Container from '@mui/material/Container';
 import Textarea from '@mui/joy/Textarea';
-import * as React from 'react';
-
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
 import IconButton from '@mui/joy/IconButton';
 import Menu from '@mui/joy/Menu';
 import MenuItem from '@mui/joy/MenuItem';
@@ -19,6 +17,7 @@ import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router';
 import Files from 'react-files';
 import ImageIcon from '@mui/icons-material/Image';
+import { TextField, makeStyles } from '@mui/material';
 
 import api from '../../utils/Api/api';
 import PublicationCard from './components/publicationCard/index';
@@ -27,13 +26,12 @@ export default function Publication() {
   const [italic, setItalic] = React.useState(false);
   const [fontWeight, setFontWeight] = React.useState('normal');
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [post, setPost] = React.useState(null); //post
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
+  const url = 'http://localhost:4000';
 
   useEffect(() => {
     if (token) {
-      console.log('-----> ', token);
       const decodeToken = jwt_decode(token);
       setUserData(decodeToken);
     }
@@ -44,9 +42,9 @@ export default function Publication() {
   const [text, setText] = useState();
   const [url_media, setUrl_media] = useState();
 
-  const publication = (e) => {
+  const publication = () => {
     api
-      .post('http://localhost:4000/post', {
+      .post(`${url}/post`, {
         text,
         url_media: 'https://via.placeholder.com/465x518',
       })
@@ -74,14 +72,21 @@ export default function Publication() {
   return (
     <Container maxWidth="sm">
       <FormControl>
-        <FormLabel style={{ marginTop: 10 }}>
+        <p
+          style={{
+            marginTop: 10,
+            fontSize: 22,
+            fontFamily: 'sans-serif',
+            fontWeight: 400,
+            color: '#037199',
+          }}
+        >
           Faça uma publicação agora, {userData.name}{' '}
-        </FormLabel>
+        </p>
         <Textarea
+          style={{ borderColor: '#037199' }}
           onChange={(e) => setText(e.target.value)}
-          color="neutral"
-          style={{ marginTop: 10 }}
-          placeholder="Type something here…"
+          placeholder="Diga como está seu dia para seus seguidores..."
           minRows={3}
           endDecorator={
             <Box
@@ -153,7 +158,16 @@ export default function Publication() {
                 </Files>
               </div>
 
-              <Button onClick={publication} sx={{ ml: 'auto' }}>
+              <Button
+                onClick={publication}
+                sx={{ ml: 'auto' }}
+                style={{
+                  backgroundColor: '#037199',
+                  width: 100,
+                  height: 20,
+                  borderRadius: 20,
+                }}
+              >
                 Publicar
               </Button>
             </Box>

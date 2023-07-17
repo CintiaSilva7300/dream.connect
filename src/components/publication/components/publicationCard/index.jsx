@@ -1,21 +1,26 @@
-import * as React from 'react';
+// import * as React, {} from 'react';
+import React, { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import axios from 'axios';
 
 import api from '../../../../utils/Api/api';
 import { CardText, Card } from './style';
+const url = 'http://localhost:4000';
 
 export default function PublicationCard() {
-  const [post, setPost] = React.useState(null); //post
+  const [post, setPost] = React.useState(null); //get post
+  const [user, setUser] = React.useState(null); //get user
 
   React.useEffect(() => {
-    api.get('http://localhost:4000/post').then((response) => {
+    api.get(`${url}/post`).then((response) => {
       setPost(response.data);
     });
   }, []);
+
   if (!post) return null; //caso não tsenha post retorna null
 
   return (
@@ -60,6 +65,10 @@ export default function PublicationCard() {
               </CardText>
             )}
           </>
+
+          // {post.filter(name => name.includes('J')).map(filteredName => (
+
+          //   ))}
         ))}
       </div>
     </Container>

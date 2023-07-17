@@ -19,10 +19,16 @@ import api from '../../utils/Api/api';
 
 export default function FormLogin() {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [showPasswordConfirm, setPasswordConfirm] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPasswordConfirm = () =>
+    setPasswordConfirm((show) => !show);
 
   const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseDownPasswordConfirm = (event) => {
     event.preventDefault();
   };
 
@@ -72,8 +78,17 @@ export default function FormLogin() {
         width: '100vh',
       }}
     >
-      <h1 style={{ fontSize: 25, margin: 50 }}>
-        Faça parte de comunidade com seus fans!
+      <h1
+        style={{
+          fontSize: 22,
+          fontFamily: 'sans-serif',
+          fontWeight: 400,
+          color: '#037199',
+          marginTop: 20,
+          marginBottom: 20,
+        }}
+      >
+        Faça parte da comunidade com seus <strong>"FANS"</strong> !
       </h1>
       {/* <h1 style={{ fontSize: 20, margin: 10 }}>Criar conta</h1> */}
 
@@ -115,13 +130,6 @@ export default function FormLogin() {
         autocomplete="off"
         style={{ width: '50%', margin: 10 }}
       />
-      {/* <TextField
-        onChange={(e) => setBirthDate(e.target.value)}
-        label="Birth Date"
-        variant="outlined"
-        autocomplete="off"
-        style={{ width: '50%', margin: 10 }}
-      /> */}
 
       <div style={{ width: '50%', margin: 10 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -132,13 +140,6 @@ export default function FormLogin() {
           />
         </LocalizationProvider>
       </div>
-
-      <TextField
-        style={{ width: '50%', margin: 10 }}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        label="Confirm Password"
-        format="MM-DD-YYYY"
-      />
 
       <FormControl sx={{ m: 1, width: '50%' }} variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -162,11 +163,35 @@ export default function FormLogin() {
         />
       </FormControl>
 
+      <FormControl sx={{ m: 1, width: '50%' }} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">
+          Confirm Password
+        </InputLabel>
+        <OutlinedInput
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          id="outlined-adornment-password"
+          type={showPasswordConfirm ? 'text' : 'password'}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPasswordConfirm}
+                onMouseDown={handleMouseDownPasswordConfirm}
+                edge="end"
+              >
+                {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Confirm Password"
+        />
+      </FormControl>
+
       <Button
         onClick={loginUser}
         variant="contained"
         style={{
-          backgroundColor: '#037199',
+          backgroundColor: 'c',
           width: '50%',
           margin: 10,
           height: 50,
@@ -175,7 +200,7 @@ export default function FormLogin() {
       >
         Cadastrar-se
       </Button>
-      <a style={{ color: 'red' }} href="/login">
+      <a style={{ color: '#037199' }} href="/login">
         Ja possui conta?
       </a>
     </div>
