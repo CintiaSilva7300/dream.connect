@@ -37,7 +37,7 @@ export default function FormLogin() {
         console.log('response --> ', response);
         localStorage.setItem('token', response.data.token);
         if (response.data === false) {
-          navigate('/login');
+          navigate('/home');
         } else {
           navigate('/');
           console.log('response.data --> ', response.data);

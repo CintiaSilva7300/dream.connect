@@ -45,10 +45,6 @@ export default function Publication() {
   const [url_media, setUrl_media] = useState();
 
   const publication = (e) => {
-    // const formData = new FormData();
-    // formData.append('url_media', file);
-    // console.log('formData ->', file);
-
     api
       .post('http://localhost:4000/post', {
         text,
