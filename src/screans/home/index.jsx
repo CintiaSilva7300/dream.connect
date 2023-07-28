@@ -12,3 +12,15 @@ export default function Home() {
     </>
   );
 }
+
+//exemplo de como pegar token
+
+// const token = localStorage.getItem('token');
+//   const [userData, setUserData] = useState(null);
+
+//   useEffect(() => {
+//     if (token) {
+//       const decodeToken = jwt_decode(token);
+//       setUserData(decodeToken);
+//     }
+//   }, []);

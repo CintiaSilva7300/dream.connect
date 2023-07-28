@@ -8,7 +8,7 @@ export default function Signup() {
     <div>
       <Box>
         <Marca>
-          <H1>Deep Fans</H1>
+          <H1>Deep Many</H1>
           {/* <img
             src=""
             alt="Logo"

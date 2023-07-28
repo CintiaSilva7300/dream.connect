@@ -29,6 +29,7 @@ export const Marca = styled.div`
 `;
 
 export const H1 = styled.div`
+  margin: 0;
   font-size: 80px;
   font-family: cursive;
 `;
@@ -39,4 +40,8 @@ export const Form = styled.div`
   align-items: center;
   width: 50%;
   height: 100vh;
+`;
+
+export const Div = styled.div`
+  width: 50px;
 `;

@@ -56,13 +56,13 @@ export default function FormLogin() {
         confirmPassword,
       })
       .then((response) => {
-        console.log('response --> ', response);
+        // console.log('response --> ', response);
         localStorage.setItem('token', response.data.token);
         if (response.data === false) {
           navigate('/login');
         } else {
           navigate('/');
-          console.log('response.data --> ', response);
+          // console.log('response.data --> ', response);
         }
       });
   };

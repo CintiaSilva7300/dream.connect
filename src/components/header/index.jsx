@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 
 import { H1 } from './style';
-import foto from '../../utils/img/foto.jpeg';
+import img from '../../utils/img/foto.jpeg';
+import BadgeAvatars from '../avatar/index';
 
 export default function Header() {
   const token = localStorage.getItem('token');
@@ -29,17 +30,20 @@ export default function Header() {
       <AppBar position="static" style={{ backgroundColor: '#037199' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <H1>Deep Fans</H1>
+            <H1>Deep Many</H1>
+            {/* <H1>Deep Fans</H1> */}
           </Typography>
 
           <h1>{userData.name}</h1>
-          <img
-            src="https://via.placeholder.com/40x40"
+          {/* <img
+            // src="https://via.placeholder.com/40x40"
+            src={img}
             alt="foto"
             width="40"
             height="40"
             style={{ borderRadius: 50, margin: 10 }}
-          />
+          /> */}
+          <BadgeAvatars />
         </Toolbar>
       </AppBar>
     </Box>

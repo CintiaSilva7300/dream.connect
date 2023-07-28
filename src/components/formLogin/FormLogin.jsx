@@ -34,13 +34,13 @@ export default function FormLogin() {
         email,
       })
       .then((response) => {
-        console.log('response --> ', response);
+        // console.log('response --> ', response);
         localStorage.setItem('token', response.data.token);
         if (response.data === false) {
           navigate('/home');
         } else {
           navigate('/');
-          console.log('response.data --> ', response.data);
+          // console.log('response.data --> ', response.data);
         }
       });
   };
@@ -101,6 +101,9 @@ export default function FormLogin() {
       >
         Entrar
       </Button>
+      <a href="/signup" style={{ color: '#037199' }}>
+        Não tem conta?
+      </a>
     </div>
   );
 }

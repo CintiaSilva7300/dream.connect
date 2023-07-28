@@ -17,8 +17,9 @@ import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router';
 import Files from 'react-files';
 import ImageIcon from '@mui/icons-material/Image';
-import { TextField, makeStyles } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
+import img from '../../utils/img/foto.jpeg';
 import api from '../../utils/Api/api';
 import PublicationCard from './components/publicationCard/index';
 
@@ -28,6 +29,8 @@ export default function Publication() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
+  const [post, setPost] = React.useState(null);
+  const navigate = useNavigate();
   const url = 'http://localhost:4000';
 
   useEffect(() => {
@@ -37,8 +40,6 @@ export default function Publication() {
     }
   }, []);
 
-  const navigate = useNavigate();
-
   const [text, setText] = useState();
   const [url_media, setUrl_media] = useState();
 
@@ -46,27 +47,62 @@ export default function Publication() {
     api
       .post(`${url}/post`, {
         text,
+        // url_media,
         url_media: 'https://via.placeholder.com/465x518',
       })
       .then((response) => {
         if (response.data === false) {
           return;
         } else {
-          navigate('/');
+          return window.location.reload();
         }
       });
   };
+
+  React.useEffect(() => {
+    api.get(`${url}/post`).then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+
+  if (!post) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress style={{ width: 70, height: 70, color: '#037199' }} />
+        <h1
+          style={{
+            fontSize: 30,
+            fontFamily: 'cursive',
+            fontWeight: 700,
+            color: '#037199',
+            margin: 10,
+          }}
+        >
+          Carregando
+        </h1>
+      </div>
+    );
+  }
 
   if (!userData) {
     return null; //caso não tenha post retorna null
   }
 
   const handleChange = (files) => {
-    console.log(files);
+    // console.log(files);
   };
 
   const handleError = (error, file) => {
-    console.log('error code ' + error.code + ': ' + error.message);
+    // console.log('error code ' + error.code + ': ' + error.message);
   };
 
   return (
@@ -79,15 +115,39 @@ export default function Publication() {
             fontFamily: 'sans-serif',
             fontWeight: 400,
             color: '#037199',
+            textAlign: 'center',
           }}
         >
           Faça uma publicação agora, {userData.name}{' '}
         </p>
+
         <Textarea
-          style={{ borderColor: '#037199' }}
+          style={{
+            borderColor: '#037199',
+            margin: 20,
+            height: 150,
+            width: '95%',
+          }}
           onChange={(e) => setText(e.target.value)}
           placeholder="Diga como está seu dia para seus seguidores..."
           minRows={3}
+          startDecorator={
+            <Box sx={{ display: 'flex', gap: 0.5 }}>
+              {/* {post.map((item) => (
+                  ))} */}
+              {/* {item.user.name} */}
+              <img
+                style={{
+                  padding: 5,
+                  width: 30,
+                  height: 30,
+                  borderRadius: '50%',
+                }}
+                src={img}
+                alt="foto"
+              />
+            </Box>
+          }
           endDecorator={
             <Box
               sx={{
@@ -143,6 +203,7 @@ export default function Publication() {
 
               <div className="files">
                 <Files
+                  onClick={(e) => setUrl_media(e.target.value)}
                   className="files-dropzone"
                   onChange={handleChange}
                   onError={handleError}

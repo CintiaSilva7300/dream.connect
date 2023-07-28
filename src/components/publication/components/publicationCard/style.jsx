@@ -5,19 +5,19 @@ export const Card = styled.div`
   justify-content: center;
   align-items: center;
   padding: 10px;
-  width: 520px;
+  width: 510px;
   margin-left: -15px;
-  height: 610px;
-  margin-top: 30px;
+  height: 640px;
+  margin-top: 20px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  margin-bottom: 50px;
 `;
 
 export const CardText = styled.div`
-  margin-left: -15px;
-  padding: 10px;
-  width: 520px;
-  height: 110px;
-  margin-top: 30px;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 521px;
+  height: 120px;
+  margin-top: 20px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 `;
