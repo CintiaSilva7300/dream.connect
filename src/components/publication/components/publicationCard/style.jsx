@@ -17,7 +17,7 @@ export const CardText = styled.div`
   justify-content: center;
   align-items: center;
   width: 521px;
-  height: 120px;
+  height: 160px;
   margin-top: 20px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 `;

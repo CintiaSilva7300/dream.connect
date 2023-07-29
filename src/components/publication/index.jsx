@@ -30,24 +30,24 @@ export default function Publication() {
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
   const [post, setPost] = React.useState(null);
-  const navigate = useNavigate();
+  const [text, setText] = useState();
+  const [url_media, setUrl_media] = useState();
   const url = 'http://localhost:4000';
 
   useEffect(() => {
+    api.get(`${url}/post`).then((response) => {
+      setPost(response.data);
+    });
     if (token) {
       const decodeToken = jwt_decode(token);
       setUserData(decodeToken);
     }
   }, []);
 
-  const [text, setText] = useState();
-  const [url_media, setUrl_media] = useState();
-
   const publication = () => {
     api
       .post(`${url}/post`, {
         text,
-        // url_media,
         url_media: 'https://via.placeholder.com/465x518',
       })
       .then((response) => {
@@ -58,12 +58,6 @@ export default function Publication() {
         }
       });
   };
-
-  React.useEffect(() => {
-    api.get(`${url}/post`).then((response) => {
-      setPost(response.data);
-    });
-  }, []);
 
   if (!post) {
     return (
@@ -98,11 +92,11 @@ export default function Publication() {
   }
 
   const handleChange = (files) => {
-    // console.log(files);
+    console.log(files);
   };
 
   const handleError = (error, file) => {
-    // console.log('error code ' + error.code + ': ' + error.message);
+    console.log('error code ' + error.code + ': ' + error.message);
   };
 
   return (
@@ -133,9 +127,6 @@ export default function Publication() {
           minRows={3}
           startDecorator={
             <Box sx={{ display: 'flex', gap: 0.5 }}>
-              {/* {post.map((item) => (
-                  ))} */}
-              {/* {item.user.name} */}
               <img
                 style={{
                   padding: 5,
@@ -203,7 +194,7 @@ export default function Publication() {
 
               <div className="files">
                 <Files
-                  onClick={(e) => setUrl_media(e.target.value)}
+                  // onClick={(e) => setUrl_media(e.target.value)}
                   className="files-dropzone"
                   onChange={handleChange}
                   onError={handleError}

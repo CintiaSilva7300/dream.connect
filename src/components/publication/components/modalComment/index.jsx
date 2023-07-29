@@ -23,8 +23,6 @@ const style = {
   transform: 'translate(-50%, -50%)',
   margin: 1,
   bgcolor: 'background.paper',
-  // border: '3px solid #037199',
-  // boxShadow: 24,
   p: 4,
 };
 
@@ -43,7 +41,6 @@ export default function CommentModalChild({ postCode }) {
 
   const [url_media, setUrl_media] = useState();
   const [userData, setUserData] = useState(null);
-  // const [postCode, setPostCode] = React.useState(null); //get codePost
   const [textInput, setTextInput] = React.useState('');
   const [text, setText] = useState();
 
