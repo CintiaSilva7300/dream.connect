@@ -3,7 +3,9 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+
 import img from '../../utils/img/foto.jpeg';
+import IconMenu from '../iconMenu';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -25,17 +27,21 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function BadgeAvatars() {
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={2} style={{ display: 'flex' }}>
       <StyledBadge
-        style={{ margin: 10 }}
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
         <a href="/perfil">
-          <Avatar alt="Remy Sharp" src={img} />
+          <Avatar
+            style={{ margin: 0, padding: 0, marginLeft: 5 }}
+            alt="Remy Sharp"
+            src={img}
+          />
         </a>
       </StyledBadge>
+      <IconMenu />
     </Stack>
   );
 }

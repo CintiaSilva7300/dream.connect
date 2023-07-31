@@ -10,16 +10,44 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
-
+import MenuItem from '@mui/material/MenuItem';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
 import api from '../../utils/Api/api';
 
+const currencies = [
+  {
+    value: 'Feminino',
+    label: 'Feminino',
+  },
+  {
+    value: 'Masculino',
+    label: 'Masculino',
+  },
+  {
+    value: 'Não-Binário',
+    label: 'Não-Binário',
+  },
+  {
+    value: 'Cisgênero',
+    label: 'Cisgênero',
+  },
+];
+
 export default function FormLogin() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPasswordConfirm, setPasswordConfirm] = React.useState(false);
+  const navigate = useNavigate();
+  const [name, setName] = useState();
+  const [secondName, setSecondName] = useState();
+  const [email, setEmail] = useState();
+  const [telephone, setTelephone] = useState();
+  const [genre, setGenre] = useState();
+  const [birthDate, setBirthDate] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowPasswordConfirm = () =>
@@ -32,42 +60,35 @@ export default function FormLogin() {
     event.preventDefault();
   };
 
-  const navigate = useNavigate();
-
-  const [name, setName] = useState();
-  const [secondName, setSecondName] = useState();
-  const [email, setEmail] = useState();
-  const [telephone, setTelephone] = useState();
-  const [genre, setGenre] = useState();
-  const [birthDate, setBirthDate] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-
   const loginUser = (e) => {
-    api
-      .post('http://localhost:4000/user', {
-        name,
-        secondName,
-        email,
-        telephone,
-        genre,
-        birthDate,
-        password,
-        confirmPassword,
-      })
-      .then((response) => {
-        localStorage.setItem('token', response.data.token);
-        if (response.data === false) {
-          navigate('/login');
-        } else {
-          navigate('/');
-        }
-      });
+    try {
+      api
+        .post('http://localhost:4000/user', {
+          name,
+          secondName,
+          email,
+          telephone,
+          genre,
+          birthDate,
+          password,
+          confirmPassword,
+        })
+        .then((response) => {
+          localStorage.setItem('token', response.data.token);
+
+          if (response.data === false) {
+            navigate('/login');
+          } else {
+            navigate('/');
+          }
+        });
+    } catch (e) {
+      console.log('ttt');
+    }
   };
 
   return (
     <div
-      className="divContainer"
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -129,11 +150,18 @@ export default function FormLogin() {
 
       <TextField
         onChange={(e) => setGenre(e.target.value)}
-        label="Genre"
-        variant="outlined"
         autocomplete="off"
         style={{ width: '50%', margin: 10 }}
-      />
+        id="outlined-select-currency"
+        select
+        label="Genre"
+      >
+        {currencies.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
 
       <div style={{ width: '50%', margin: 10 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
