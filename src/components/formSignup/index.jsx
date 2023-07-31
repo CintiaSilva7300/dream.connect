@@ -56,13 +56,11 @@ export default function FormLogin() {
         confirmPassword,
       })
       .then((response) => {
-        // console.log('response --> ', response);
         localStorage.setItem('token', response.data.token);
         if (response.data === false) {
           navigate('/login');
         } else {
           navigate('/');
-          // console.log('response.data --> ', response);
         }
       });
   };
@@ -90,7 +88,6 @@ export default function FormLogin() {
       >
         Faça parte da comunidade com seus <strong>"FANS"</strong> !
       </h1>
-      {/* <h1 style={{ fontSize: 20, margin: 10 }}>Criar conta</h1> */}
 
       <TextField
         onChange={(e) => setName(e.target.value)}

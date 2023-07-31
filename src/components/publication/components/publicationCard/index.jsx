@@ -13,7 +13,7 @@ import AccordionComment from '../../../accordionComment';
 const url = 'http://localhost:4000';
 
 export default function PublicationCard() {
-  const [post, setPost] = React.useState(null); //get post
+  const [post, setPost] = React.useState(null);
 
   React.useEffect(() => {
     api.get(`${url}/post`).then((response) => {
@@ -89,7 +89,7 @@ export default function PublicationCard() {
                   <ShareIcon />
                 </IconButton>
               </div>
-              <AccordionComment post={post} />
+              <AccordionComment post={item} />
             </div>
           ) : (
             <CardText>

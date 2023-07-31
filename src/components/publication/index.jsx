@@ -14,7 +14,6 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Check from '@mui/icons-material/Check';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
-import { useNavigate } from 'react-router';
 import Files from 'react-files';
 import ImageIcon from '@mui/icons-material/Image';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -31,7 +30,6 @@ export default function Publication() {
   const [userData, setUserData] = useState(null);
   const [post, setPost] = React.useState(null);
   const [text, setText] = useState();
-  const [url_media, setUrl_media] = useState();
   const url = 'http://localhost:4000';
 
   useEffect(() => {
@@ -91,12 +89,10 @@ export default function Publication() {
     return null; //caso não tenha post retorna null
   }
 
-  const handleChange = (files) => {
-    console.log(files);
-  };
+  const handleChange = (files) => {};
 
   const handleError = (error, file) => {
-    console.log('error code ' + error.code + ': ' + error.message);
+    // console.log('error code ' + error.code + ': ' + error.message);
   };
 
   return (
@@ -127,16 +123,18 @@ export default function Publication() {
           minRows={3}
           startDecorator={
             <Box sx={{ display: 'flex', gap: 0.5 }}>
-              <img
-                style={{
-                  padding: 5,
-                  width: 30,
-                  height: 30,
-                  borderRadius: '50%',
-                }}
-                src={img}
-                alt="foto"
-              />
+              <a href="/perfil">
+                <img
+                  style={{
+                    padding: 5,
+                    width: 30,
+                    height: 30,
+                    borderRadius: '50%',
+                  }}
+                  src={img}
+                  alt="foto"
+                />
+              </a>
             </Box>
           }
           endDecorator={

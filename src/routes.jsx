@@ -9,6 +9,7 @@ import {
 import Login from './screans/login';
 import Home from './screans/home/';
 import Signup from './screans/signup';
+import Perfil from './screans/perfil/index';
 
 export default function RoutesConfig() {
   const PrivateRoutes = () => {
@@ -24,6 +25,7 @@ export default function RoutesConfig() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/perfil" element={<Perfil />} />
         {/* <Route path='*' element={<NotFound />} /> */}
       </Routes>
     </Router>

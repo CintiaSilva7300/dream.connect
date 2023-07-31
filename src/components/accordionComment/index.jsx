@@ -4,12 +4,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Card from '@mui/material/Card';
 
 export default function AccordionComment({ post }) {
-  React.useEffect(() => {
-    console.log('post ->>>', post);
-  }, []);
-
   return (
     <div>
       <>
@@ -21,30 +18,28 @@ export default function AccordionComment({ post }) {
           >
             <Typography>Ver comentarios...</Typography>
           </AccordionSummary>
-          {post.map((p) => (
+          {post.comments.map((comment) => (
             <AccordionDetails>
-              {p.comments.map((comment) => (
+              <Card
+                variant="outlined"
+                style={{ padding: 20, wordBreak: 'break-word' }}
+              >
                 <div>
-                  {!p.comments.text ? (
-                    <div>
-                      <Typography
-                        style={{
-                          color: '#808080',
-                          fontFamily: 'sans-serif',
-                          fontSize: 13,
-                          fontWeight: 400,
-                        }}
-                      >
-                        {comment.text}
-                      </Typography>
-                    </div>
-                  ) : (
-                    <div>
-                      <p>SEILA</p>
-                    </div>
-                  )}
+                  <div>
+                    <h1>{comment.user.name}</h1>
+                    <hi
+                      style={{
+                        color: '#808080',
+                        fontFamily: 'sans-serif',
+                        fontSize: 13,
+                        fontWeight: 400,
+                      }}
+                    >
+                      {comment.text}
+                    </hi>
+                  </div>
                 </div>
-              ))}
+              </Card>
             </AccordionDetails>
           ))}
         </Accordion>

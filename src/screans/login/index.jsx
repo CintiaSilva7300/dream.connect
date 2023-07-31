@@ -18,7 +18,6 @@ export default function Login() {
   React.useEffect(() => {
     api.get(`${url}/post`).then((res) => {
       setPost(res.data);
-      // console.log(res.data);
     });
   }, []);
 
@@ -27,16 +26,6 @@ export default function Login() {
       <Box>
         <Marca>
           <H1>Deep Many</H1>
-          {/* <img src={Icon} alt='Logo' style={{width: 100, height:100, margin:20}}/> */}
-          {/* <Div class="main" id="section1">
-            <a href="#scrollCard" style={{ marginLeft: 166 }}>
-              <img
-                src={setaIcon}
-                alt="seta"
-                style={{ marginTop: '95vh', height: 50, width: 50 }}
-              />
-            </a>
-          </Div> */}
         </Marca>
         <Form>
           <FormLogin />
@@ -56,9 +45,6 @@ export default function Login() {
         }}
       >
         <div class="main" id="scrollCard">
-          {/* {post.map((p) => (
-            <p>aaaaaa{p.name}</p>
-          ))} */}
           <Card>
             <div>
               <img

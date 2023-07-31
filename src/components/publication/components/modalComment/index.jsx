@@ -27,10 +27,14 @@ const style = {
 };
 
 export default function CommentModalChild({ postCode }) {
-  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [open, setOpen] = React.useState(false);
+  const [userData, setUserData] = useState(null);
+  const [textInput, setTextInput] = React.useState('');
+  const [url_media, setUrl_media] = useState();
   const token = localStorage.getItem('token');
+  const [text, setText] = useState();
 
   useEffect(() => {
     if (token) {
@@ -38,11 +42,6 @@ export default function CommentModalChild({ postCode }) {
       setUserData(decodeToken);
     }
   }, []);
-
-  const [url_media, setUrl_media] = useState();
-  const [userData, setUserData] = useState(null);
-  const [textInput, setTextInput] = React.useState('');
-  const [text, setText] = useState();
 
   const addEmoji = (emoji) => () => setTextInput(`${textInput}${emoji}`);
 
@@ -59,6 +58,7 @@ export default function CommentModalChild({ postCode }) {
         text,
       })
       .then((response) => {
+        window.location.reload();
         if (response.data === false) {
           return response;
         }
@@ -88,12 +88,10 @@ export default function CommentModalChild({ postCode }) {
         >
           <Box style={{ width: 450 }}>
             <Textarea
-              // onClick={(e) => setText(e.target.value)}
               onChange={handleChangeValue}
               id="transition-modal-title"
               placeholder="Type in here…"
               value={textInput}
-              // onChange={(event) => setTextInput(event.target.value)}
               minRows={2}
               maxRows={4}
               startDecorator={
@@ -123,10 +121,7 @@ export default function CommentModalChild({ postCode }) {
                   <Files
                     onClick={(e) => setUrl_media(e.target.value)}
                     style={{ cursor: 'pointer', marginTop: 10 }}
-                    // onClick={(e) => setUrl_media(e.target.value)}
                     className="files-dropzone"
-                    // onChange={handleChange}
-                    // onError={handleError}
                     accepts={[
                       'image/png',
                       '.pdf',
@@ -139,16 +134,6 @@ export default function CommentModalChild({ postCode }) {
                     minFileSize={0}
                     clickable
                   >
-                    {/* <img
-                      style={{
-                        padding: 5,
-                        width: 30,
-                        height: 30,
-                        borderRadius: '50%',
-                      }}
-                      src=""
-                      alt="foto"
-                    /> */}
                     <ImageIcon
                       style={{ cursor: 'pointer', marginTop: 8, color: '#000' }}
                     />
@@ -171,6 +156,7 @@ export default function CommentModalChild({ postCode }) {
               }}
             >
               <Button
+                onClickCapture={handleClose}
                 onClick={comment}
                 style={{
                   backgroundColor: '#037199',

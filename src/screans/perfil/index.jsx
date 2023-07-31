@@ -5,11 +5,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import Header from '../../components/header';
 
-import { H1 } from './style';
-import BadgeAvatars from '../avatar/index';
-
-export default function Header() {
+export default function Perfil() {
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
 
@@ -25,18 +23,14 @@ export default function Header() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: '#037199' }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <a href="/" style={{ textDecoration: 'none', color: 'white' }}>
-              <H1>Deep Many</H1>
-            </a>
-          </Typography>
-          <h1>{userData.name}</h1>
-          <BadgeAvatars />
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <>
+      <Header />
+
+      <p>{userData.name}</p>
+
+      <div>
+        <p>perfil</p>
+      </div>
+    </>
   );
 }

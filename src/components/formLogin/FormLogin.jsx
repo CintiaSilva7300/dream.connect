@@ -34,13 +34,11 @@ export default function FormLogin() {
         email,
       })
       .then((response) => {
-        // console.log('response --> ', response);
         localStorage.setItem('token', response.data.token);
         if (response.data === false) {
           navigate('/home');
         } else {
           navigate('/');
-          // console.log('response.data --> ', response.data);
         }
       });
   };
