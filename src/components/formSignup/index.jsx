@@ -86,7 +86,7 @@ export default function FormLogin() {
           marginBottom: 20,
         }}
       >
-        Faça parte da comunidade com seus <strong>"FANS"</strong> !
+        Venha fazer parte da comunidade, <strong>CONECTE-SE</strong>
       </h1>
 
       <TextField
@@ -119,7 +119,14 @@ export default function FormLogin() {
         variant="outlined"
         autocomplete="off"
         style={{ width: '50%', margin: 10 }}
+        type="number"
+        onInput={(e) => {
+          e.target.value = Math.max(0, parseInt(e.target.value))
+            .toString()
+            .slice(0, 11);
+        }}
       />
+
       <TextField
         onChange={(e) => setGenre(e.target.value)}
         label="Genre"

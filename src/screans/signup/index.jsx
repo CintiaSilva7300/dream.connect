@@ -1,19 +1,14 @@
 import * as React from 'react';
 
 import FormSignup from '../../components/formSignup/index';
-import { Box, Marca, H1, Form, Card } from './style';
+import { Box, Marca, H1, Form } from './style';
 
 export default function Signup() {
   return (
     <div>
       <Box>
         <Marca>
-          <H1>Deep Many</H1>
-          {/* <img
-            src=""
-            alt="Logo"
-            style={{ width: 100, height: 100, margin: 20 }}
-          /> */}
+          <H1>Dream Connect</H1>
         </Marca>
         <Form>
           <FormSignup />

@@ -30,7 +30,7 @@ export default function Header() {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <a href="/" style={{ textDecoration: 'none', color: 'white' }}>
-              <H1>Deep Many</H1>
+              <H1>Dream Connect</H1>
             </a>
           </Typography>
           <h1>{userData.name}</h1>

@@ -25,7 +25,7 @@ export default function Login() {
     <>
       <Box>
         <Marca>
-          <H1>Deep Many</H1>
+          <H1>Dream Connect</H1>
         </Marca>
         <Form>
           <FormLogin />
