@@ -1,13 +1,15 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { useEffect, useState } from 'react';
+import Typography from '@mui/material/Typography';
 
-import { H1 } from './style';
-import BadgeAvatars from '../avatar/index';
+import { H1 } from './styles';
+import styles from './styles';
+import { BLUE } from '../../utils/constants';
+import AvatarHeader from '../avatarHeader/index';
 
 export default function Header() {
   const token = localStorage.getItem('token');
@@ -26,15 +28,15 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: '#037199' }}>
+      <AppBar position="static" style={{ backgroundColor: BLUE }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <a href="/" style={{ textDecoration: 'none', color: 'white' }}>
+            <a href="/" style={styles.a}>
               <H1>Dream Connect</H1>
             </a>
           </Typography>
           <h1>{userData.name}</h1>
-          <BadgeAvatars />
+          <AvatarHeader />
         </Toolbar>
       </AppBar>
     </Box>

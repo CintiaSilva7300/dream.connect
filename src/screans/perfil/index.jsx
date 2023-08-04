@@ -1,11 +1,10 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import { useEffect, useState } from 'react';
+
+import styles from './styles';
 import Header from '../../components/header';
+import HeaderPerfil from '../../components/headerPerfil';
 
 export default function Perfil() {
   const token = localStorage.getItem('token');
@@ -24,12 +23,9 @@ export default function Perfil() {
 
   return (
     <>
-      <Header />
-
-      <p>{userData.name}</p>
-
       <div>
-        <p>perfil</p>
+        <Header />
+        <HeaderPerfil />
       </div>
     </>
   );

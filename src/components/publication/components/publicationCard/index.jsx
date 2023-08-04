@@ -1,15 +1,18 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import CommentModal from '../modalComment/index';
-import BadgeAvatars from '../../../avatar/index';
+import styles from './styles';
+import { CardText } from './styles';
 import api from '../../../../utils/Api/api';
-import { CardText } from './style';
+import AvatarIcon from '../../../avatar/index';
+import CommentModal from '../modalComment/index';
 import img from '../../../../utils/img/foto.jpeg';
 import AccordionComment from '../../../accordionComment';
+import { json } from 'react-router';
+
 const url = 'http://localhost:4000';
 
 export default function PublicationCard() {
@@ -28,13 +31,7 @@ export default function PublicationCard() {
       {post.map((item) => (
         <>
           {item.url_media ? (
-            <div
-              style={{
-                boxShadow: ' 0 8px 16px 0 rgba(0, 0, 0, 0.2)',
-                marginTop: 10,
-                width: 520,
-              }}
-            >
+            <div style={styles.box}>
               <div
                 style={{
                   fontFamily: 'sans-serif',
@@ -50,30 +47,17 @@ export default function PublicationCard() {
                     padding: 5,
                   }}
                 >
-                  <BadgeAvatars />
+                  <AvatarIcon />
                   <p style={{ marginTop: 5, margin: 5, cursor: 'pointer' }}>
                     {item.user.name}
                   </p>
                 </div>
               </div>
-              <p
-                style={{
-                  margin: 5,
-                  fontFamily: 'sans-serif',
-                  fontSize: 13,
-                  fontWeight: 400,
-                  color: '#037199',
-                }}
-              >
-                {item.text}
-              </p>
+              <p style={styles.text}>{item.text}</p>
               <div>
                 <img
-                  style={{
-                    width: 521,
-                    height: 500,
-                  }}
-                  src={img}
+                  style={{ width: 521, height: 500 }}
+                  src={`http://localhost:4000/file/${item.url_media}`}
                   alt="foto"
                 />
               </div>
@@ -101,31 +85,10 @@ export default function PublicationCard() {
                     padding: 5,
                   }}
                 >
-                  <BadgeAvatars />
-                  <p
-                    style={{
-                      margin: 5,
-                      fontFamily: 'sans-serif',
-                      fontSize: 13,
-                      fontWeight: 400,
-                      color: '#037199',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {item.user.name}
-                  </p>
+                  <AvatarIcon />
+                  <p style={styles.nameText}>{item.user.name}</p>
                 </div>
-                <p
-                  style={{
-                    margin: 5,
-                    fontFamily: 'sans-serif',
-                    fontSize: 13,
-                    fontWeight: 400,
-                    color: '#037199',
-                  }}
-                >
-                  {item.text}
-                </p>
+                <p style={styles.conteudoText}>{item.text}</p>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
                 </IconButton>
@@ -136,7 +99,7 @@ export default function PublicationCard() {
                   <ShareIcon />
                 </IconButton>
               </div>
-              <AccordionComment />
+              <AccordionComment post={item} />
             </CardText>
           )}
         </>

@@ -29,6 +29,7 @@ export const Marca = styled.div`
 `;
 
 export const H1 = styled.div`
+  margin: 0;
   font-size: 80px;
   font-family: cursive;
 `;
@@ -40,3 +41,19 @@ export const Form = styled.div`
   width: 50%;
   height: 100vh;
 `;
+
+export const Div = styled.div`
+  width: 50px;
+`;
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  img: { width: 465, height: 518, padding: 5 },
+};
+
+export default styles;

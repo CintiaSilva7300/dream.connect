@@ -1,19 +1,21 @@
 import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/joy/Button';
-import Typography from '@mui/material/Typography';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import Files from 'react-files';
-import ImageIcon from '@mui/icons-material/Image';
-import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import Box from '@mui/material/Box';
+import Button from '@mui/joy/Button';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import { useEffect, useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Typography from '@mui/material/Typography';
+import ImageIcon from '@mui/icons-material/Image';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
-import IconButton from '@mui/joy/IconButton';
+import styles from './styles';
 import Textarea from '@mui/joy/Textarea';
 import api from '../../../../utils/Api/api';
+import IconButton from '@mui/joy/IconButton';
+
 const url = 'http://localhost:4000';
 
 const style = {
@@ -81,12 +83,8 @@ export default function CommentModalChild({ postCode }) {
           },
         }}
       >
-        <Fade
-          in={open}
-          sx={style}
-          style={{ backgroundColor: '#fff', borderRadius: 10, height: 170 }}
-        >
-          <Box style={{ width: 450 }}>
+        <Fade in={open} sx={style} style={styles.fade}>
+          <Box style={styles.container}>
             <Textarea
               onChange={handleChangeValue}
               id="transition-modal-title"
@@ -120,7 +118,7 @@ export default function CommentModalChild({ postCode }) {
 
                   <Files
                     onClick={(e) => setUrl_media(e.target.value)}
-                    style={{ cursor: 'pointer', marginTop: 10 }}
+                    style={{ cursor: 'pointer', marginTop: 0, height: 30 }}
                     className="files-dropzone"
                     accepts={[
                       'image/png',
@@ -134,9 +132,7 @@ export default function CommentModalChild({ postCode }) {
                     minFileSize={0}
                     clickable
                   >
-                    <ImageIcon
-                      style={{ cursor: 'pointer', marginTop: 8, color: '#000' }}
-                    />
+                    <ImageIcon style={styles.imageIcon} />
                   </Files>
                 </Box>
               }
@@ -147,24 +143,11 @@ export default function CommentModalChild({ postCode }) {
               }
               sx={{ minWidth: 300 }}
             />
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+            <div style={styles.containerB}>
               <Button
                 onClickCapture={handleClose}
                 onClick={comment}
-                style={{
-                  backgroundColor: '#037199',
-                  width: 200,
-                  borderRadius: 20,
-                  margin: 6,
-                  padding: 5,
-                }}
+                style={styles.button}
               >
                 comentar
               </Button>

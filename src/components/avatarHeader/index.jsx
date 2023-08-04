@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 
 import img from '../../utils/img/foto.jpeg';
+import IconMenu from '../iconMenu';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -26,7 +27,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export default function AvatarIcon() {
+export default function AvatarHeader() {
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
   let fileUrl = 'http://localhost:4000/file/';
@@ -49,12 +50,15 @@ export default function AvatarIcon() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
-        <Avatar
-          style={{ margin: 0, padding: 0, marginLeft: 5 }}
-          alt="Remy Sharp"
-          src={`${fileUrl}${userData.image}`}
-        />
+        <a href="/perfil">
+          <Avatar
+            style={{ margin: 0, padding: 0, marginLeft: 5 }}
+            alt="?"
+            src={`${fileUrl}${userData.image}`}
+          />
+        </a>
       </StyledBadge>
+      <IconMenu />
     </Stack>
   );
 }

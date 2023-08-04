@@ -1,16 +1,19 @@
 import * as React from 'react';
+import Card from '@mui/material/Card';
 import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Card from '@mui/material/Card';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+
+import styles from './styles';
+import { BLUE } from '../../utils/constants';
 
 export default function AccordionComment({ post }) {
   return (
     <div>
       <>
-        <Accordion style={{ color: '#037199' }}>
+        <Accordion style={{ color: BLUE }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -20,23 +23,11 @@ export default function AccordionComment({ post }) {
           </AccordionSummary>
           {post.comments.map((comment) => (
             <AccordionDetails>
-              <Card
-                variant="outlined"
-                style={{ padding: 20, wordBreak: 'break-word' }}
-              >
+              <Card variant="outlined" style={styles.card}>
                 <div>
                   <div>
                     <h1>{comment.user.name}</h1>
-                    <hi
-                      style={{
-                        color: '#808080',
-                        fontFamily: 'sans-serif',
-                        fontSize: 13,
-                        fontWeight: 400,
-                      }}
-                    >
-                      {comment.text}
-                    </hi>
+                    <hi style={styles.text}>{comment.text}</hi>
                   </div>
                 </div>
               </Card>

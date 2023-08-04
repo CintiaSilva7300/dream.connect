@@ -1,13 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import AppBar from '@mui/material/AppBar';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import Publication from './../publication/index';
-import Box from '@mui/material/Box';
+import { BLUE } from '../../utils/constants';
+import styles from './style';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,29 +55,9 @@ export default function FloatingActionButton() {
   };
 
   return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-      }}
-    >
-      <Box
-        sx={{
-          bgcolor: 'background.paper',
-          width: '100%',
-          position: 'absolute',
-          minHeight: 200,
-        }}
-      >
-        <AppBar
-          position="static"
-          color="default"
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+    <div style={styles.container}>
+      <Box sx={styles.box}>
+        <AppBar position="static" color="default" style={styles.appBar}>
           <Tabs
             style={{ width: '30%' }}
             value={value}
@@ -84,13 +66,9 @@ export default function FloatingActionButton() {
             variant="fullWidth"
             aria-label="action tabs example"
           >
-            <Tab style={{ color: '#037199' }} label="Feed" {...a11yProps(0)} />
-            <Tab
-              style={{ color: '#037199' }}
-              label="Item Two"
-              {...a11yProps(1)}
-            />
-            <Tab style={{ color: '#037199' }} label="SEILA" {...a11yProps(2)} />
+            <Tab style={{ color: BLUE }} label="Feed" {...a11yProps(0)} />
+            <Tab style={{ color: BLUE }} label="Item Two" {...a11yProps(1)} />
+            <Tab style={{ color: BLUE }} label="SEILA" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <div

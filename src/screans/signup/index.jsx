@@ -1,7 +1,7 @@
 import * as React from 'react';
 
+import { Box, Marca, H1, Form } from './styles';
 import FormSignup from '../../components/formSignup/index';
-import { Box, Marca, H1, Form } from './style';
 
 export default function Signup() {
   return (

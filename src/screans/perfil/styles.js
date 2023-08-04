@@ -45,3 +45,15 @@ export const Form = styled.div`
 export const Div = styled.div`
   width: 50px;
 `;
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  img: { width: 465, height: 518, padding: 5 },
+};
+
+export default styles;

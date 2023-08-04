@@ -5,3 +5,9 @@ export const H1 = styled.div`
   font-family: cursive;
   border-radius: 1px solid #000;
 `;
+
+const styles = {
+  a: { textDecoration: 'none', color: 'white' },
+};
+
+export default styles;

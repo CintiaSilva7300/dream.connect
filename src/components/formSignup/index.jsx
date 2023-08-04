@@ -1,21 +1,24 @@
 import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import IconButton from '@mui/material/IconButton';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Visibility from '@mui/icons-material/Visibility';
+import InputAdornment from '@mui/material/InputAdornment';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import api from '../../utils/Api/api';
+import styles from './styles';
+import { BLUE } from '../../utils/constants';
 
 const currencies = [
   {
@@ -36,7 +39,7 @@ const currencies = [
   },
 ];
 
-export default function FormLogin() {
+export default function FormSigNup() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPasswordConfirm, setPasswordConfirm] = React.useState(false);
   const navigate = useNavigate();
@@ -45,9 +48,12 @@ export default function FormLogin() {
   const [email, setEmail] = useState();
   const [telephone, setTelephone] = useState();
   const [genre, setGenre] = useState();
+  const [image, setImage] = useState();
   const [birthDate, setBirthDate] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [url_media, setUrl_media] = useState();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowPasswordConfirm = () =>
@@ -62,6 +68,7 @@ export default function FormLogin() {
 
   const loginUser = (e) => {
     try {
+      handleFileUpload();
       api
         .post('http://localhost:4000/user', {
           name,
@@ -70,43 +77,51 @@ export default function FormLogin() {
           telephone,
           genre,
           birthDate,
+          image,
           password,
           confirmPassword,
         })
         .then((response) => {
           localStorage.setItem('token', response.data.token);
-
+          console.log(response);
           if (response.data === false) {
             navigate('/login');
           } else {
             navigate('/');
           }
         });
-    } catch (e) {
-      console.log('ttt');
+    } catch (err) {
+      console.log(err);
     }
   };
 
+  const handleFileUpload = () => {
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    api
+      .post('/file/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log('Arquivo enviado com sucesso:', response.data);
+        setImage(response.data.teste.id);
+      })
+      .catch((error) => {
+        console.error('Erro ao enviar arquivo:', error);
+      });
+  };
+
+  const handleFileChange = (e) => {
+    handleFileUpload();
+    setSelectedFile(e.target.files[0]);
+  };
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        width: '100vh',
-      }}
-    >
-      <h1
-        style={{
-          fontSize: 22,
-          fontFamily: 'sans-serif',
-          fontWeight: 400,
-          color: '#037199',
-          marginTop: 20,
-          marginBottom: 20,
-        }}
-      >
+    <div style={styles.container}>
+      <h1 style={styles.title}>
         Venha fazer parte da comunidade, <strong>CONECTE-SE</strong>
       </h1>
 
@@ -115,7 +130,7 @@ export default function FormLogin() {
         label="Name"
         variant="outlined"
         autocomplete="off"
-        style={{ width: '50%', margin: 10 }}
+        style={styles.textField}
       />
 
       <TextField
@@ -123,15 +138,35 @@ export default function FormLogin() {
         label="Second Name"
         variant="outlined"
         autocomplete="off"
-        style={{ width: '50%', margin: 10 }}
+        style={styles.textField}
       />
+
+      <div
+        style={{
+          border: '1px solid #bebebe',
+          padding: 0,
+          height: 50,
+          width: '50%',
+          borderRadius: 3,
+        }}
+      >
+        <input
+          style={{ width: 138, marginTop: 12, padding: 1 }}
+          onChange={handleFileChange}
+          type="file"
+          id="teste"
+        />
+        <label for="teste" class="btnPerson" style={{ margin: 5 }}>
+          Escolha imagem
+        </label>
+      </div>
 
       <TextField
         onChange={(e) => setEmail(e.target.value)}
         label="E-mail"
         variant="outlined"
         autocomplete="off"
-        style={{ width: '50%', margin: 10 }}
+        style={styles.textField}
       />
 
       <TextField
@@ -139,7 +174,7 @@ export default function FormLogin() {
         label="Telephone"
         variant="outlined"
         autocomplete="off"
-        style={{ width: '50%', margin: 10 }}
+        style={styles.textField}
         type="number"
         onInput={(e) => {
           e.target.value = Math.max(0, parseInt(e.target.value))
@@ -151,7 +186,7 @@ export default function FormLogin() {
       <TextField
         onChange={(e) => setGenre(e.target.value)}
         autocomplete="off"
-        style={{ width: '50%', margin: 10 }}
+        style={styles.textField}
         id="outlined-select-currency"
         select
         label="Genre"
@@ -163,7 +198,7 @@ export default function FormLogin() {
         ))}
       </TextField>
 
-      <div style={{ width: '50%', margin: 10 }}>
+      <div style={styles.date}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             onChange={(e) => setBirthDate(e)}
@@ -219,20 +254,10 @@ export default function FormLogin() {
         />
       </FormControl>
 
-      <Button
-        onClick={loginUser}
-        variant="contained"
-        style={{
-          backgroundColor: 'c',
-          width: '50%',
-          margin: 10,
-          height: 50,
-          borderRadius: 20,
-        }}
-      >
+      <Button onClick={loginUser} variant="contained" style={styles.button}>
         Cadastrar-se
       </Button>
-      <a style={{ color: '#037199' }} href="/login">
+      <a style={{ color: BLUE }} href="/login">
         Ja possui conta?
       </a>
     </div>

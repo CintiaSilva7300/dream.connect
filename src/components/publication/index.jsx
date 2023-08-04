@@ -1,36 +1,40 @@
+import axios from 'axios';
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Textarea from '@mui/joy/Textarea';
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import FormControl from '@mui/joy/FormControl';
-import IconButton from '@mui/joy/IconButton';
-import Menu from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import FormatBold from '@mui/icons-material/FormatBold';
-import FormatItalic from '@mui/icons-material/FormatItalic';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import Check from '@mui/icons-material/Check';
-import { useEffect, useState } from 'react';
-import jwt_decode from 'jwt-decode';
 import Files from 'react-files';
+import Menu from '@mui/joy/Menu';
+import jwt_decode from 'jwt-decode';
+import Button from '@mui/joy/Button';
+import Textarea from '@mui/joy/Textarea';
+import MenuItem from '@mui/joy/MenuItem';
+import { useEffect, useState } from 'react';
+import IconButton from '@mui/joy/IconButton';
+import Check from '@mui/icons-material/Check';
+import FormControl from '@mui/joy/FormControl';
+import Container from '@mui/material/Container';
 import ImageIcon from '@mui/icons-material/Image';
+import FormatBold from '@mui/icons-material/FormatBold';
+import ListItemDecorator from '@mui/joy/ListItemDecorator';
+import FormatItalic from '@mui/icons-material/FormatItalic';
 import CircularProgress from '@mui/material/CircularProgress';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
-import img from '../../utils/img/foto.jpeg';
 import api from '../../utils/Api/api';
+import img from '../../utils/img/foto.jpeg';
 import PublicationCard from './components/publicationCard/index';
 
 export default function Publication() {
-  const [italic, setItalic] = React.useState(false);
-  const [fontWeight, setFontWeight] = React.useState('normal');
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const token = localStorage.getItem('token');
-  const [userData, setUserData] = useState(null);
-  const [post, setPost] = React.useState(null);
   const [text, setText] = useState();
+  const [italic, setItalic] = React.useState(false);
+  const token = localStorage.getItem('token');
+  const [url_media, setUrl_media] = useState();
+  const [post, setPost] = React.useState(null);
+  const [userData, setUserData] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fontWeight, setFontWeight] = React.useState('normal');
   const url = 'http://localhost:4000';
+  let fileUrl = 'http://localhost:4000/file/';
 
   useEffect(() => {
     api.get(`${url}/post`).then((response) => {
@@ -42,17 +46,42 @@ export default function Publication() {
     }
   }, []);
 
+  const handleFileUpload = () => {
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    api
+      .post('/file/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log('Arquivo enviado com sucesso:', response.data);
+        setUrl_media(response.data.teste.id);
+      })
+      .catch((error) => {
+        console.error('Erro ao enviar arquivo:', error);
+      });
+  };
+
+  const handleFileChange = (e) => {
+    handleFileUpload();
+    setSelectedFile(e.target.files[0]);
+  };
+
   const publication = () => {
     api
       .post(`${url}/post`, {
         text,
-        url_media: 'https://via.placeholder.com/465x518',
+        url_media,
       })
       .then((response) => {
         if (response.data === false) {
           return;
         } else {
-          return window.location.reload();
+          handleFileUpload();
+          // return window.location.reload();
         }
       });
   };
@@ -89,12 +118,6 @@ export default function Publication() {
     return null; //caso não tenha post retorna null
   }
 
-  const handleChange = (files) => {};
-
-  const handleError = (error, file) => {
-    // console.log('error code ' + error.code + ': ' + error.message);
-  };
-
   return (
     <Container maxWidth="sm">
       <FormControl>
@@ -119,7 +142,7 @@ export default function Publication() {
             width: '95%',
           }}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Diga como está seu dia para seus seguidores..."
+          placeholder="Diga como está seu dia..."
           minRows={3}
           startDecorator={
             <Box sx={{ display: 'flex', gap: 0.5 }}>
@@ -131,7 +154,7 @@ export default function Publication() {
                     height: 30,
                     borderRadius: '50%',
                   }}
-                  src={img}
+                  src={`${fileUrl}${userData.image}`}
                   alt="foto"
                 />
               </a>
@@ -190,22 +213,16 @@ export default function Publication() {
                 <FormatItalic />
               </IconButton>
 
-              <div className="files">
-                <Files
-                  // onClick={(e) => setUrl_media(e.target.value)}
-                  className="files-dropzone"
-                  onChange={handleChange}
-                  onError={handleError}
-                  accepts={['image/png', '.pdf', 'audio/*', '.jpeg', '.mp4/*']}
-                  multiple
-                  maxFileSize={10000000}
-                  minFileSize={0}
-                  clickable
-                >
-                  <ImageIcon
-                    style={{ cursor: 'pointer', marginTop: 8, color: '#000' }}
-                  />
-                </Files>
+              <div>
+                <input
+                  style={{ width: 135 }}
+                  onChange={handleFileChange}
+                  type="file"
+                  id="teste"
+                ></input>
+                <label for="teste" class="btnPerson" style={{ margin: 5 }}>
+                  Escolha imagem
+                </label>
               </div>
 
               <Button
