@@ -1,34 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import styles from './styles';
 import { CardText } from './styles';
 import api from '../../../../utils/Api/api';
 import AvatarIcon from '../../../avatar/index';
 import CommentModal from '../modalComment/index';
-import img from '../../../../utils/img/foto.jpeg';
 import AccordionComment from '../../../accordionComment';
-import { json } from 'react-router';
 
 const url = 'http://localhost:4000';
 
-export default function PublicationCard() {
-  const [post, setPost] = React.useState(null);
-
-  React.useEffect(() => {
-    api.get(`${url}/post`).then((response) => {
-      setPost(response.data);
-    });
-  }, []);
-
-  if (!post) return null;
+export default function PublicationCard({ posts }) {
+  if (!posts) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <CircularProgress style={{ width: 70, height: 70, color: '#037199' }} />
+        <h1
+          style={{
+            fontSize: 30,
+            fontFamily: 'cursive',
+            fontWeight: 700,
+            color: '#037199',
+            margin: 10,
+          }}
+        >
+          Carregando...
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <Container maxWidth="sm">
-      {post.map((item) => (
+      {posts.map((item) => (
         <>
           {item.url_media ? (
             <div style={styles.box}>

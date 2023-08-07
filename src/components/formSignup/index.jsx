@@ -68,7 +68,6 @@ export default function FormSigNup() {
 
   const loginUser = (e) => {
     try {
-      handleFileUpload();
       api
         .post('http://localhost:4000/user', {
           name,
@@ -87,6 +86,7 @@ export default function FormSigNup() {
           if (response.data === false) {
             navigate('/login');
           } else {
+            handleFileUpload();
             navigate('/');
           }
         });
@@ -95,16 +95,12 @@ export default function FormSigNup() {
     }
   };
 
-  const handleFileUpload = () => {
+  const handleFileUpload = (file) => {
     const formData = new FormData();
-    formData.append('file', selectedFile);
-
+    formData.append('file', file);
+    console.log('->->', file);
     api
-      .post('/file/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      .post('/file/upload', formData)
       .then((response) => {
         console.log('Arquivo enviado com sucesso:', response.data);
         setImage(response.data.teste.id);
@@ -115,8 +111,8 @@ export default function FormSigNup() {
   };
 
   const handleFileChange = (e) => {
-    handleFileUpload();
     setSelectedFile(e.target.files[0]);
+    handleFileUpload(e.target.files[0]);
   };
 
   return (
