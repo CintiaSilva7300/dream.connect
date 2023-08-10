@@ -5,7 +5,7 @@ const styles = {
     width: 200,
     marginTop: 100,
   },
-  container: { width: '100%', height: '100vh', backgroundColor: '#fbfbfb' },
+  container: { width: '100%', height: '100%' },
   box: {
     display: 'flex',
     width: '100%',

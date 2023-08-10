@@ -8,7 +8,6 @@ import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
-import ImageIcon from '@mui/icons-material/Image';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
 import styles from './styles';
@@ -35,8 +34,10 @@ export default function CommentModalChild({ postCode }) {
   const [userData, setUserData] = useState(null);
   const [textInput, setTextInput] = React.useState('');
   const [url_media, setUrl_media] = useState();
+  const [post, setPost] = React.useState(null);
   const token = localStorage.getItem('token');
   const [text, setText] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -55,16 +56,39 @@ export default function CommentModalChild({ postCode }) {
   const comment = () => {
     api
       .post(`${url}/comment/`, {
-        url_media: 'https://via.placeholder.com/465x518',
-        postCode: postCode,
+        url_media,
         text,
+        postCode: postCode,
       })
       .then((response) => {
-        window.location.reload();
         if (response.data === false) {
-          return response;
+          return;
+        } else {
+          handleFileUpload();
+          api.get(`${url}/comment/`).then((response) => {
+            setPost(response.data);
+          });
         }
       });
+  };
+
+  const handleFileUpload = (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    api
+      .post('/file/upload', formData)
+      .then((response) => {
+        console.log('Arquivo enviado com sucesso:', response.data);
+        setUrl_media(response.data.teste.id);
+      })
+      .catch((error) => {
+        console.error('Erro ao enviar arquivo:', error);
+      });
+  };
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    handleFileUpload(e.target.files[0]);
   };
 
   return (
@@ -116,24 +140,17 @@ export default function CommentModalChild({ postCode }) {
                     😍
                   </IconButton>
 
-                  <Files
-                    onClick={(e) => setUrl_media(e.target.value)}
-                    style={{ cursor: 'pointer', marginTop: 0, height: 30 }}
-                    className="files-dropzone"
-                    accepts={[
-                      'image/png',
-                      '.pdf',
-                      'audio/*',
-                      '.jpeg',
-                      '.mp4/*',
-                    ]}
-                    multiple
-                    maxFileSize={10000000}
-                    minFileSize={0}
-                    clickable
-                  >
-                    <ImageIcon style={styles.imageIcon} />
-                  </Files>
+                  <div>
+                    <input
+                      style={{ width: 135, margin: 5 }}
+                      onChange={handleFileChange}
+                      type="file"
+                      id="teste"
+                    ></input>
+                    <label for="teste" class="btnPerson" style={{ margin: 5 }}>
+                      imagem
+                    </label>
+                  </div>
                 </Box>
               }
               endDecorator={

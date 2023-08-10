@@ -15,6 +15,7 @@ import img from '../../utils/img/foto.jpeg';
 import CommentModal from '../publication/components/modalComment';
 
 const url = 'http://localhost:4000';
+let fileUrl = 'http://localhost:4000/file/';
 
 export default function CardToPostUser() {
   const token = localStorage.getItem('token');
@@ -35,7 +36,13 @@ export default function CardToPostUser() {
     api
       .get(`${url}/post`)
       .then((response) => {
-        setPost(response.data);
+        if (response.data === false) {
+          return;
+        } else {
+          api.get(`${url}/post`).then((response) => {
+            setPost(response.data);
+          });
+        }
       })
       .catch((error) => {
         console.error('Error fetching posts:', error);
@@ -43,12 +50,13 @@ export default function CardToPostUser() {
   }, []);
 
   if (!userData || post === null) {
-    return <p>Loading...</p>;
+    return null;
   }
 
   const filteredPostsToUser = post.filter(
     (singlePost) => singlePost.user.email === userData.email
   );
+  console.log('filter', filteredPostsToUser);
 
   return (
     <>
@@ -78,11 +86,11 @@ export default function CardToPostUser() {
                     </p>
                   </div>
                 </div>
-                <p style={styles.text}>{item.text}</p>
+                <p style={styles.text}>{item.text} </p>
                 <div>
                   <img
                     style={{ width: 521, height: 500 }}
-                    src={img}
+                    src={`${fileUrl}${item.url_media}`}
                     alt="foto"
                   />
                 </div>

@@ -9,12 +9,14 @@ import api from '../../utils/Api/api';
 import FormLogin from '../../components/formLogin';
 import { Box, Marca, H1, Form, Card } from './styles';
 
+const URL = process.env.URL;
+
 export default function Login() {
   const [post, setPost] = useState();
   const url = 'http://localhost:4000';
 
   React.useEffect(() => {
-    api.get(`${url}/post`).then((res) => {
+    api.get(`${URL}/post`).then((res) => {
       setPost(res.data);
     });
   }, []);

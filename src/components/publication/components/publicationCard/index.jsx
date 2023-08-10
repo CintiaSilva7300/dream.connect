@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
@@ -7,12 +7,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import styles from './styles';
 import { CardText } from './styles';
-import api from '../../../../utils/Api/api';
 import AvatarIcon from '../../../avatar/index';
 import CommentModal from '../modalComment/index';
 import AccordionComment from '../../../accordionComment';
-
-const url = 'http://localhost:4000';
 
 export default function PublicationCard({ posts }) {
   if (!posts) {
