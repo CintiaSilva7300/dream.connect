@@ -16,6 +16,7 @@ import FormatItalic from '@mui/icons-material/FormatItalic';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 import api from '../../utils/Api/api';
+import { API_PROD } from '../../utils/environments';
 import PublicationCard from './components/publicationCard/index';
 
 export default function Publication() {
@@ -28,22 +29,20 @@ export default function Publication() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fontWeight, setFontWeight] = React.useState('normal');
-  const url = 'http://localhost:4000';
-  let fileUrl = 'http://localhost:4000/file/';
 
   useEffect(() => {
     if (token) {
       const decodeToken = jwt_decode(token);
       setUserData(decodeToken);
     }
-    api.get(`${url}/post`).then((response) => {
+    api.get(`/post`).then((response) => {
       setPost(response.data);
     });
   }, []);
 
   const publication = () => {
     api
-      .post(`${url}/post`, {
+      .post(`/post`, {
         text,
         url_media,
       })
@@ -52,7 +51,7 @@ export default function Publication() {
           return;
         } else {
           handleFileUpload();
-          api.get(`${url}/post`).then((response) => {
+          api.get(`/post`).then((response) => {
             setPost(response.data);
           });
         }
@@ -118,7 +117,7 @@ export default function Publication() {
                     height: 30,
                     borderRadius: '50%',
                   }}
-                  src={`${fileUrl}${userData.image}`}
+                  src={`${API_PROD}/file/${userData.image}`}
                   alt="foto"
                 />
               </a>

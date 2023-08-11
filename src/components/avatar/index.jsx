@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 
-import img from '../../utils/img/foto.jpeg';
+import { API_PROD } from '../../utils/environments';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -29,7 +29,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export default function AvatarIcon() {
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
-  let fileUrl = 'http://localhost:4000/file/';
 
   useEffect(() => {
     if (token) {
@@ -52,7 +51,7 @@ export default function AvatarIcon() {
         <Avatar
           style={{ margin: 0, padding: 0, marginLeft: 5 }}
           alt="Remy Sharp"
-          src={`${fileUrl}${userData.image}`}
+          src={`${API_PROD}/file/${userData.image}`}
         />
       </StyledBadge>
     </Stack>

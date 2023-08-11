@@ -7,17 +7,16 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import styles from './styles';
 import api from '../../utils/Api/api';
 import FormLogin from '../../components/formLogin';
+import { API_PROD } from '../../utils/environments';
 import { Box, Marca, H1, Form, Card } from './styles';
-
-const URL = process.env.URL;
 
 export default function Login() {
   const [post, setPost] = useState();
-  const url = 'http://localhost:4000';
 
   React.useEffect(() => {
-    api.get(`${URL}/post`).then((res) => {
+    api.get(`${API_PROD}post`).then((res) => {
       setPost(res.data);
+      console.log(res);
     });
   }, []);
 
@@ -40,11 +39,7 @@ export default function Login() {
         <div class="main" id="scrollCard">
           <Card>
             <div>
-              <img
-                style={styles.img}
-                src="https://instagram.fgru8-1.fna.fbcdn.net/v/t39.30808-6/336383242_766201328492004_2429714585709410062_n.jpg?stp=c0.190.720.900a_dst-jpg_e15&_nc_ht=instagram.fgru8-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Lv5AQbP_wIQAX8LmMPV&edm=ACWDqb8AAAAA&ccb=7-5&ig_cache_key=MzA2MTY1MTg5MjQwMTgwNTc5OA%3D%3D.2-ccb7-5&oh=00_AfA_s2PzD92jgylDYWp3dvK5KLjnd82XxyntZ5tBW-T96w&oe=64AD1E59&_nc_sid=ee9879"
-                alt=""
-              />
+              <img style={styles.img} src="" alt="" />
               <p style={{ margin: 10 }}>
                 Hoje o dia foi produtivo!, fiz varios nadas.... :) Hoje o dia
                 foi produtivo!, fiz varios nadas.... :)

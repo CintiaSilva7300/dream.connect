@@ -11,11 +11,8 @@ import styles from './styles';
 import AvatarIcon from '../avatar';
 import { CardText } from './styles';
 import api from '../../utils/Api/api';
-import img from '../../utils/img/foto.jpeg';
+import { API_PROD } from '../../utils/environments';
 import CommentModal from '../publication/components/modalComment';
-
-const url = 'http://localhost:4000';
-let fileUrl = 'http://localhost:4000/file/';
 
 export default function CardToPostUser() {
   const token = localStorage.getItem('token');
@@ -34,12 +31,12 @@ export default function CardToPostUser() {
     }
 
     api
-      .get(`${url}/post`)
+      .get(`${API_PROD}post`)
       .then((response) => {
         if (response.data === false) {
           return;
         } else {
-          api.get(`${url}/post`).then((response) => {
+          api.get(`${API_PROD}post`).then((response) => {
             setPost(response.data);
           });
         }
@@ -90,7 +87,7 @@ export default function CardToPostUser() {
                 <div>
                   <img
                     style={{ width: 521, height: 500 }}
-                    src={`${fileUrl}${item.url_media}`}
+                    src={`${API_PROD}/file/${item.url_media}`}
                     alt="foto"
                   />
                 </div>

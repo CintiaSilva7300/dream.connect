@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import Accordion from '@mui/material/Accordion';
 import Typography from '@mui/material/Typography';
@@ -8,8 +8,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 
 import styles from './styles';
 import { BLUE } from '../../utils/constants';
-
-let fileUrl = 'http://localhost:4000/file/';
+import { API_PROD } from '../../utils/environments';
 
 export default function AccordionComment({ post }) {
   return (
@@ -29,7 +28,10 @@ export default function AccordionComment({ post }) {
                 <div>
                   {comment.url_media ? (
                     <div>
-                      <img src={`${fileUrl}${comment.url_media}`} alt="img" />
+                      <img
+                        src={`${API_PROD}/file/${comment.url_media}`}
+                        alt="img"
+                      />
                       <h1>
                         <strong>{comment.user.name}</strong>
                       </h1>

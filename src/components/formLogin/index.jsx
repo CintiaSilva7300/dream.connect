@@ -31,7 +31,7 @@ export default function FormLogin() {
 
   const loginUser = (e) => {
     api
-      .post('http://localhost:4000/user/login', {
+      .post('/user/login', {
         password,
         email,
       })

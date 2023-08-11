@@ -53,7 +53,6 @@ export default function FormSigNup() {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [url_media, setUrl_media] = useState();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowPasswordConfirm = () =>
@@ -69,7 +68,7 @@ export default function FormSigNup() {
   const loginUser = (e) => {
     try {
       api
-        .post('http://localhost:4000/user', {
+        .post('/user', {
           name,
           secondName,
           email,
@@ -98,7 +97,6 @@ export default function FormSigNup() {
   const handleFileUpload = (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    console.log('->->', file);
     api
       .post('/file/upload', formData)
       .then((response) => {

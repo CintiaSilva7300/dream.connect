@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:4000/',
+  baseURL: 'https://dream-connect-g2xg.vercel.app',
+  // baseURL: 'http://localhost:4000/',
 });
 
 api.interceptors.request.use(async (config) => {

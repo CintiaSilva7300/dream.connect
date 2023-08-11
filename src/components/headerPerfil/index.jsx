@@ -4,15 +4,13 @@ import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 
 import styles from './styles';
-import img from '../../utils/img/foto.jpeg';
+import { API_PROD } from '../../utils/environments';
 import { FONT } from '../../utils/constants';
 import CardToPostUser from '../cardToPostUser';
 
 export default function HeaderPerfil() {
   const token = localStorage.getItem('token');
   const [userData, setUserData] = useState(null);
-
-  let fileUrl = 'http://localhost:4000/file/';
 
   useEffect(() => {
     if (token) {
@@ -35,7 +33,7 @@ export default function HeaderPerfil() {
       <Container style={styles.container}>
         <div style={styles.box}>
           <img
-            src={`${fileUrl}${userData.image}`}
+            src={`${API_PROD}/file/${userData.image}`}
             alt=""
             srcset=""
             style={styles.img}
