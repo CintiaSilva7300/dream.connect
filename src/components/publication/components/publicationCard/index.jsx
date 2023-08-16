@@ -10,6 +10,7 @@ import { CardText } from './styles';
 import AvatarIcon from '../../../avatar/index';
 import CommentModal from '../modalComment/index';
 import AccordionComment from '../../../accordionComment';
+import { API_PROD } from '../../../../utils/environments';
 
 export default function PublicationCard({ posts }) {
   if (!posts) {
@@ -69,7 +70,7 @@ export default function PublicationCard({ posts }) {
               <div>
                 <img
                   style={{ width: 521, height: 500 }}
-                  src={`http://localhost:4000/file/${item.url_media}`}
+                  src={`${API_PROD}/file/${item.url_media}`}
                   alt="foto"
                 />
               </div>
