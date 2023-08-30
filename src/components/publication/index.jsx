@@ -1,34 +1,33 @@
-import * as React from 'react';
-import Box from '@mui/joy/Box';
-import Menu from '@mui/joy/Menu';
-import jwt_decode from 'jwt-decode';
-import Button from '@mui/joy/Button';
-import Textarea from '@mui/joy/Textarea';
-import MenuItem from '@mui/joy/MenuItem';
-import { useEffect, useState } from 'react';
-import IconButton from '@mui/joy/IconButton';
-import Check from '@mui/icons-material/Check';
-import FormControl from '@mui/joy/FormControl';
-import Container from '@mui/material/Container';
-import FormatBold from '@mui/icons-material/FormatBold';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import FormatItalic from '@mui/icons-material/FormatItalic';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import Box from "@mui/joy/Box";
+import Menu from "@mui/joy/Menu";
+import jwt_decode from "jwt-decode";
+import Button from "@mui/joy/Button";
+import Textarea from "@mui/joy/Textarea";
+import MenuItem from "@mui/joy/MenuItem";
+import React, { useState, useEffect } from "react";
+import IconButton from "@mui/joy/IconButton";
+import Check from "@mui/icons-material/Check";
+import FormControl from "@mui/joy/FormControl";
+import Container from "@mui/material/Container";
+import FormatBold from "@mui/icons-material/FormatBold";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import FormatItalic from "@mui/icons-material/FormatItalic";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 
-import api from '../../utils/Api/api';
-import { API_PROD } from '../../utils/environments';
-import PublicationCard from './components/publicationCard/index';
+import api from "../../utils/Api/api";
+import { API_PROD } from "../../utils/environments";
+import PublicationCard from "./components/publicationCard/index";
 
 export default function Publication() {
   const [text, setText] = useState();
   const [italic, setItalic] = React.useState(false);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [url_media, setUrl_media] = useState();
   const [post, setPost] = React.useState(null);
   const [userData, setUserData] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fontWeight, setFontWeight] = React.useState('normal');
+  const [fontWeight, setFontWeight] = React.useState("normal");
 
   useEffect(() => {
     if (token) {
@@ -60,15 +59,15 @@ export default function Publication() {
 
   const handleFileUpload = (file) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     api
-      .post('/file/upload', formData)
+      .post("/file/upload", formData)
       .then((response) => {
-        console.log('Arquivo enviado com sucesso:', response.data);
+        console.log("Arquivo enviado com sucesso:", response.data);
         setUrl_media(response.data.teste.id);
       })
       .catch((error) => {
-        console.error('Erro ao enviar arquivo:', error);
+        console.error("Erro ao enviar arquivo:", error);
       });
   };
 
@@ -88,34 +87,34 @@ export default function Publication() {
           style={{
             marginTop: 10,
             fontSize: 22,
-            fontFamily: 'sans-serif',
+            fontFamily: "sans-serif",
             fontWeight: 400,
-            color: '#037199',
-            textAlign: 'center',
+            color: "#037199",
+            textAlign: "center",
           }}
         >
-          Faça uma publicação agora, {userData.name}{' '}
+          Faça uma publicação agora, {userData.name}{" "}
         </p>
 
         <Textarea
           style={{
-            borderColor: '#037199',
+            borderColor: "#037199",
             margin: 20,
             height: 150,
-            width: '95%',
+            width: "95%",
           }}
           onChange={(e) => setText(e.target.value)}
           placeholder="Diga como está seu dia..."
           minRows={3}
           startDecorator={
-            <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Box sx={{ display: "flex", gap: 0.5 }}>
               <a href="/perfil">
                 <img
                   style={{
                     padding: 5,
                     width: 30,
                     height: 30,
-                    borderRadius: '50%',
+                    borderRadius: "50%",
                   }}
                   src={`${API_PROD}/file/${userData.image}`}
                   alt="foto"
@@ -126,12 +125,12 @@ export default function Publication() {
           endDecorator={
             <Box
               sx={{
-                display: 'flex',
-                gap: 'var(--Textarea-paddingBlock)',
-                pt: 'var(--Textarea-paddingBlock)',
-                borderTop: '1px solid',
-                borderColor: 'divider',
-                flex: 'auto',
+                display: "flex",
+                gap: "var(--Textarea-paddingBlock)",
+                pt: "var(--Textarea-paddingBlock)",
+                borderTop: "1px solid",
+                borderColor: "divider",
+                flex: "auto",
               }}
             >
               <IconButton
@@ -148,9 +147,9 @@ export default function Publication() {
                 onClose={() => setAnchorEl(null)}
                 size="sm"
                 placement="bottom-start"
-                sx={{ '--ListItemDecorator-size': '24px' }}
+                sx={{ "--ListItemDecorator-size": "24px" }}
               >
-                {['200', 'normal', 'bold'].map((weight) => (
+                {["200", "normal", "bold"].map((weight) => (
                   <MenuItem
                     key={weight}
                     selected={fontWeight === weight}
@@ -163,13 +162,13 @@ export default function Publication() {
                     <ListItemDecorator>
                       {fontWeight === weight && <Check fontSize="sm" />}
                     </ListItemDecorator>
-                    {weight === '200' ? 'lighter' : weight}
+                    {weight === "200" ? "lighter" : weight}
                   </MenuItem>
                 ))}
               </Menu>
               <IconButton
-                variant={italic ? 'soft' : 'plain'}
-                color={italic ? 'primary' : 'neutral'}
+                variant={italic ? "soft" : "plain"}
+                color={italic ? "primary" : "neutral"}
                 aria-pressed={italic}
                 onClick={() => setItalic((bool) => !bool)}
               >
@@ -190,9 +189,9 @@ export default function Publication() {
 
               <Button
                 onClick={publication}
-                sx={{ ml: 'auto' }}
+                sx={{ ml: "auto" }}
                 style={{
-                  backgroundColor: '#037199',
+                  backgroundColor: "#037199",
                   width: 100,
                   height: 20,
                   borderRadius: 20,
@@ -205,7 +204,7 @@ export default function Publication() {
           sx={{
             minWidth: 300,
             fontWeight,
-            fontStyle: italic ? 'italic' : 'initial',
+            fontStyle: italic ? "italic" : "initial",
           }}
         />
       </FormControl>

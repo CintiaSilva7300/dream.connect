@@ -1,21 +1,21 @@
-import * as React from 'react';
-import jwt_decode from 'jwt-decode';
-import { useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import ShareIcon from '@mui/icons-material/Share';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AccordionComment from '../accordionComment';
+import * as React from "react";
+import jwt_decode from "jwt-decode";
+import { useEffect, useState } from "react";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import ShareIcon from "@mui/icons-material/Share";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import AccordionComment from "../accordionComment";
 
-import styles from './styles';
-import AvatarIcon from '../avatar';
-import { CardText } from './styles';
-import api from '../../utils/Api/api';
-import { API_PROD } from '../../utils/environments';
-import CommentModal from '../publication/components/modalComment';
+import styles from "./styles";
+import AvatarIcon from "../avatar";
+import { CardText } from "./styles";
+import api from "../../utils/Api/api";
+import { API_PROD } from "../../utils/environments";
+import CommentModal from "../publication/components/modalComment";
 
 export default function CardToPostUser() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [userData, setUserData] = useState(null);
   const [post, setPost] = React.useState(null);
 
@@ -25,24 +25,24 @@ export default function CardToPostUser() {
         const decodeToken = jwt_decode(token);
         setUserData(decodeToken);
       } catch (error) {
-        console.error('Error decoding token:', error);
+        console.error("Error decoding token:", error);
         setUserData(null);
       }
     }
 
     api
-      .get(`${API_PROD}post`)
+      .get(`${API_PROD}/post`)
       .then((response) => {
         if (response.data === false) {
           return;
         } else {
-          api.get(`${API_PROD}post`).then((response) => {
+          api.get(`${API_PROD}/post`).then((response) => {
             setPost(response.data);
           });
         }
       })
       .catch((error) => {
-        console.error('Error fetching posts:', error);
+        console.error("Error fetching posts:", error);
       });
   }, []);
 
@@ -53,7 +53,7 @@ export default function CardToPostUser() {
   const filteredPostsToUser = post.filter(
     (singlePost) => singlePost.user.email === userData.email
   );
-  console.log('filter', filteredPostsToUser);
+  console.log("filter", filteredPostsToUser);
 
   return (
     <>
@@ -64,21 +64,21 @@ export default function CardToPostUser() {
               <div style={styles.box}>
                 <div
                   style={{
-                    fontFamily: 'sans-serif',
+                    fontFamily: "sans-serif",
                     fontSize: 13,
                     fontWeight: 400,
-                    color: '#037199',
+                    color: "#037199",
                   }}
                 >
                   <div
                     style={{
-                      display: 'flex',
+                      display: "flex",
                       marginTop: 10,
                       padding: 5,
                     }}
                   >
                     <AvatarIcon />
-                    <p style={{ marginTop: 5, margin: 5, cursor: 'pointer' }}>
+                    <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
                       {item.user.name}
                     </p>
                   </div>
@@ -110,7 +110,7 @@ export default function CardToPostUser() {
                 <div style={{ marginTop: 25 }}>
                   <div
                     style={{
-                      display: 'flex',
+                      display: "flex",
                       marginTop: 10,
                       padding: 5,
                     }}

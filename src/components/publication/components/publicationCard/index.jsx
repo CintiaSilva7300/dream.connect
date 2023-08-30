@@ -1,35 +1,35 @@
-import React from 'react';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import ShareIcon from '@mui/icons-material/Share';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CircularProgress from '@mui/material/CircularProgress';
+import React from "react";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import ShareIcon from "@mui/icons-material/Share";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import styles from './styles';
-import { CardText } from './styles';
-import AvatarIcon from '../../../avatar/index';
-import CommentModal from '../modalComment/index';
-import AccordionComment from '../../../accordionComment';
-import { API_PROD } from '../../../../utils/environments';
+import styles from "./styles";
+import { CardText } from "./styles";
+import AvatarIcon from "../../../avatar/index";
+import CommentModal from "../modalComment/index";
+import AccordionComment from "../../../accordionComment";
+import { API_PROD } from "../../../../utils/environments";
 
 export default function PublicationCard({ posts }) {
   if (!posts) {
     return (
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <CircularProgress style={{ width: 70, height: 70, color: '#037199' }} />
+        <CircularProgress style={{ width: 70, height: 70, color: "#037199" }} />
         <h1
           style={{
             fontSize: 30,
-            fontFamily: 'cursive',
+            fontFamily: "cursive",
             fontWeight: 700,
-            color: '#037199',
+            color: "#037199",
             margin: 10,
           }}
         >
@@ -47,21 +47,21 @@ export default function PublicationCard({ posts }) {
             <div style={styles.box}>
               <div
                 style={{
-                  fontFamily: 'sans-serif',
+                  fontFamily: "sans-serif",
                   fontSize: 13,
                   fontWeight: 400,
-                  color: '#037199',
+                  color: "#037199",
                 }}
               >
                 <div
                   style={{
-                    display: 'flex',
+                    display: "flex",
                     marginTop: 10,
                     padding: 5,
                   }}
                 >
                   <AvatarIcon />
-                  <p style={{ marginTop: 5, margin: 5, cursor: 'pointer' }}>
+                  <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
                     {item.user.name}
                   </p>
                 </div>
@@ -69,7 +69,7 @@ export default function PublicationCard({ posts }) {
               <p style={styles.text}>{item.text}</p>
               <div>
                 <img
-                  style={{ width: 521, height: 500 }}
+                  style={{ width: 521, height: 500, objectFit: "contain" }}
                   src={`${API_PROD}/file/${item.url_media}`}
                   alt="foto"
                 />
@@ -93,7 +93,7 @@ export default function PublicationCard({ posts }) {
               <div style={{ marginTop: 25 }}>
                 <div
                   style={{
-                    display: 'flex',
+                    display: "flex",
                     marginTop: 10,
                     padding: 5,
                   }}
