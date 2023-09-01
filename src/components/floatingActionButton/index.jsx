@@ -1,15 +1,16 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import AppBar from '@mui/material/AppBar';
-import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import AppBar from "@mui/material/AppBar";
+import FeedIcon from "@mui/icons-material/Feed";
+import { useTheme } from "@mui/material/styles";
+import GradeIcon from "@mui/icons-material/Grade";
+import Typography from "@mui/material/Typography";
 
-import Publication from './../publication/index';
-import { BLUE } from '../../utils/constants';
-import styles from './style';
+import Publication from "./../publication/index";
+import styles from "./style";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,7 +38,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `action-tab-${index}`,
-    'aria-controls': `action-tabpanel-${index}
+    "aria-controls": `action-tabpanel-${index}
     `,
   };
 }
@@ -59,20 +60,20 @@ export default function FloatingActionButton() {
       <Box sx={styles.box}>
         <AppBar position="static" color="default" style={styles.appBar}>
           <Tabs
-            style={{ width: '30%' }}
+            style={{ width: "30%" }}
             value={value}
             onChange={handleChange}
             textColor="primary"
             variant="fullWidth"
             aria-label="action tabs example"
           >
-            <Tab style={{ color: BLUE }} label="Feed" {...a11yProps(0)} />
-            <Tab style={{ color: BLUE }} label="Item Two" {...a11yProps(1)} />
-            <Tab style={{ color: BLUE }} label="SEILA" {...a11yProps(2)} />
+            <Tab label={<FeedIcon />} {...a11yProps(0)} />
+            <Tab label={<GradeIcon />} {...a11yProps(0)} />
+            {/* <Tab style={{ color: BLUE }} label="SEILA" {...a11yProps(2)} /> */}
           </Tabs>
         </AppBar>
         <div
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}
           onChangeIndex={handleChangeIndex}
         >

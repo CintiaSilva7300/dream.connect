@@ -53,7 +53,7 @@ export default function CardToPostUser() {
   const filteredPostsToUser = post.filter(
     (singlePost) => singlePost.user.email === userData.email
   );
-  console.log("filter", filteredPostsToUser);
+  // console.log("filter", filteredPostsToUser);
 
   return (
     <>

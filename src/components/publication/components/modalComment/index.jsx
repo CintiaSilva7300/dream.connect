@@ -1,29 +1,30 @@
-import * as React from 'react';
-import Files from 'react-files';
-import jwt_decode from 'jwt-decode';
-import Box from '@mui/material/Box';
-import Button from '@mui/joy/Button';
-import Fade from '@mui/material/Fade';
-import Modal from '@mui/material/Modal';
-import { useEffect, useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Typography from '@mui/material/Typography';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import * as React from "react";
+import Files from "react-files";
+import jwt_decode from "jwt-decode";
+import Box from "@mui/material/Box";
+import Button from "@mui/joy/Button";
+import Fade from "@mui/material/Fade";
+import Modal from "@mui/material/Modal";
+import { useEffect, useState } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Typography from "@mui/material/Typography";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
-import styles from './styles';
-import Textarea from '@mui/joy/Textarea';
-import api from '../../../../utils/Api/api';
-import IconButton from '@mui/joy/IconButton';
+import styles from "./styles";
+import Textarea from "@mui/joy/Textarea";
+import api from "../../../../utils/Api/api";
+import IconButton from "@mui/joy/IconButton";
+import { API_PROD } from "../../../../utils/environments";
 
-const url = 'http://localhost:4000';
+const url = "http://localhost:4000";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   margin: 1,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   p: 4,
 };
 
@@ -32,10 +33,10 @@ export default function CommentModalChild({ postCode }) {
   const handleClose = () => setOpen(false);
   const [open, setOpen] = React.useState(false);
   const [userData, setUserData] = useState(null);
-  const [textInput, setTextInput] = React.useState('');
+  const [textInput, setTextInput] = React.useState("");
   const [url_media, setUrl_media] = useState();
   const [post, setPost] = React.useState(null);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [text, setText] = useState();
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -65,7 +66,7 @@ export default function CommentModalChild({ postCode }) {
           return;
         } else {
           handleFileUpload();
-          api.get(`${url}/comment/`).then((response) => {
+          api.get(`${API_PROD}/comment/`).then((response) => {
             setPost(response.data);
           });
         }
@@ -74,15 +75,15 @@ export default function CommentModalChild({ postCode }) {
 
   const handleFileUpload = (file) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     api
-      .post('/file/upload', formData)
+      .post("/file/upload", formData)
       .then((response) => {
-        console.log('Arquivo enviado com sucesso:', response.data);
+        console.log("Arquivo enviado com sucesso:", response.data);
         setUrl_media(response.data.teste.id);
       })
       .catch((error) => {
-        console.error('Erro ao enviar arquivo:', error);
+        console.error("Erro ao enviar arquivo:", error);
       });
   };
 
@@ -117,25 +118,25 @@ export default function CommentModalChild({ postCode }) {
               minRows={2}
               maxRows={4}
               startDecorator={
-                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                <Box sx={{ display: "flex", gap: 0.5 }}>
                   <IconButton
                     variant="outlined"
                     color="neutral"
-                    onClick={addEmoji('👍')}
+                    onClick={addEmoji("👍")}
                   >
                     👍
                   </IconButton>
                   <IconButton
                     variant="outlined"
                     color="neutral"
-                    onClick={addEmoji('🏖')}
+                    onClick={addEmoji("🏖")}
                   >
                     🏖
                   </IconButton>
                   <IconButton
                     variant="outlined"
                     color="neutral"
-                    onClick={addEmoji('😍')}
+                    onClick={addEmoji("😍")}
                   >
                     😍
                   </IconButton>
@@ -154,7 +155,7 @@ export default function CommentModalChild({ postCode }) {
                 </Box>
               }
               endDecorator={
-                <Typography level="body3" sx={{ ml: 'auto' }}>
+                <Typography level="body3" sx={{ ml: "auto" }}>
                   {textInput.length} character(s)
                 </Typography>
               }

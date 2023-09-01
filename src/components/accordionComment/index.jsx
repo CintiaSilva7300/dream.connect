@@ -11,7 +11,6 @@ import { BLUE } from "../../utils/constants";
 import { API_PROD } from "../../utils/environments";
 
 export default function AccordionComment({ post }) {
-  console.log("aaaaaaa ->->->>", post);
   return (
     <div>
       <>

@@ -1,18 +1,18 @@
-import * as React from 'react';
-import jwt_decode from 'jwt-decode';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import jwt_decode from "jwt-decode";
+import Box from "@mui/material/Box";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { useEffect, useState } from "react";
+import Typography from "@mui/material/Typography";
 
-import { H1 } from './styles';
-import styles from './styles';
-import { BLUE } from '../../utils/constants';
-import AvatarHeader from '../avatarHeader/index';
+import { H1 } from "./styles";
+import styles from "./styles";
+import { BLUE } from "../../utils/constants";
+import AvatarHeader from "../avatarHeader/index";
 
 export default function Header() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function Header() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, width: "100%" }}>
       <AppBar position="static" style={{ backgroundColor: BLUE }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

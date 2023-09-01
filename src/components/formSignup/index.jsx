@@ -1,41 +1,41 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import IconButton from '@mui/material/IconButton';
-import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Visibility from '@mui/icons-material/Visibility';
-import InputAdornment from '@mui/material/InputAdornment';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import * as React from "react";
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Visibility from "@mui/icons-material/Visibility";
+import InputAdornment from "@mui/material/InputAdornment";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { useNavigate } from "react-router";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-import api from '../../utils/Api/api';
-import styles from './styles';
-import { BLUE } from '../../utils/constants';
+import api from "../../utils/Api/api";
+import styles from "./styles";
+import { BLUE } from "../../utils/constants";
 
 const currencies = [
   {
-    value: 'Feminino',
-    label: 'Feminino',
+    value: "Feminino",
+    label: "Feminino",
   },
   {
-    value: 'Masculino',
-    label: 'Masculino',
+    value: "Masculino",
+    label: "Masculino",
   },
   {
-    value: 'Não-Binário',
-    label: 'Não-Binário',
+    value: "Não-Binário",
+    label: "Não-Binário",
   },
   {
-    value: 'Cisgênero',
-    label: 'Cisgênero',
+    value: "Cisgênero",
+    label: "Cisgênero",
   },
 ];
 
@@ -68,7 +68,7 @@ export default function FormSigNup() {
   const loginUser = (e) => {
     try {
       api
-        .post('/user', {
+        .post("/user", {
           name,
           secondName,
           email,
@@ -80,13 +80,12 @@ export default function FormSigNup() {
           confirmPassword,
         })
         .then((response) => {
-          localStorage.setItem('token', response.data.token);
-          console.log(response);
+          localStorage.setItem("token", response.data.token);
           if (response.data === false) {
-            navigate('/login');
+            navigate("/login");
           } else {
             handleFileUpload();
-            navigate('/');
+            navigate("/");
           }
         });
     } catch (err) {
@@ -96,15 +95,15 @@ export default function FormSigNup() {
 
   const handleFileUpload = (file) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     api
-      .post('/file/upload', formData)
+      .post("/file/upload", formData)
       .then((response) => {
-        console.log('Arquivo enviado com sucesso:', response.data);
+        console.log("Arquivo enviado com sucesso:", response.data);
         setImage(response.data.teste.id);
       })
       .catch((error) => {
-        console.error('Erro ao enviar arquivo:', error);
+        console.error("Erro ao enviar arquivo:", error);
       });
   };
 
@@ -137,10 +136,10 @@ export default function FormSigNup() {
 
       <div
         style={{
-          border: '1px solid #bebebe',
+          border: "1px solid #bebebe",
           padding: 0,
           height: 50,
-          width: '50%',
+          width: "50%",
           borderRadius: 3,
         }}
       >
@@ -202,12 +201,12 @@ export default function FormSigNup() {
         </LocalizationProvider>
       </div>
 
-      <FormControl sx={{ m: 1, width: '50%' }} variant="outlined">
+      <FormControl sx={{ m: 1, width: "50%" }} variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <OutlinedInput
           onChange={(e) => setPassword(e.target.value)}
           id="outlined-adornment-password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -224,14 +223,14 @@ export default function FormSigNup() {
         />
       </FormControl>
 
-      <FormControl sx={{ m: 1, width: '50%' }} variant="outlined">
+      <FormControl sx={{ m: 1, width: "50%" }} variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">
           Confirm Password
         </InputLabel>
         <OutlinedInput
           onChange={(e) => setConfirmPassword(e.target.value)}
           id="outlined-adornment-password"
-          type={showPasswordConfirm ? 'text' : 'password'}
+          type={showPasswordConfirm ? "text" : "password"}
           endAdornment={
             <InputAdornment position="end">
               <IconButton

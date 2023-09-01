@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import Container from "@mui/material/Container";
+import GradeIcon from "@mui/icons-material/Grade";
 import IconButton from "@mui/material/IconButton";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -7,12 +9,36 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import styles from "./styles";
 import { CardText } from "./styles";
+import api from "../../../../utils/Api/api";
 import AvatarIcon from "../../../avatar/index";
 import CommentModal from "../modalComment/index";
 import AccordionComment from "../../../accordionComment";
 import { API_PROD } from "../../../../utils/environments";
 
 export default function PublicationCard({ posts }) {
+  const [like, setLike] = useState();
+  const [likeStatus, setLikeStatus] = useState({});
+
+  const likePost = (postCode) => {
+    if (!likeStatus[postCode]) {
+      api
+        .post(`/like`, {
+          like: true,
+          postCode,
+        })
+        .then((response) => {
+          setLikeStatus((prevLikeStatus) => ({
+            ...prevLikeStatus,
+            [postCode]: true,
+          }));
+          console.log("Post curtido:", response.data);
+        })
+        .catch((error) => {
+          console.error("Erro ao curtir o post:", error);
+        });
+    }
+  };
+
   if (!posts) {
     return (
       <div
@@ -76,8 +102,21 @@ export default function PublicationCard({ posts }) {
               </div>
               <div>
                 <IconButton aria-label="add to favorites">
-                  <FavoriteIcon style={{ margin: 0 }} />
+                  {likeStatus[item.code] ? (
+                    <GradeIcon
+                      onClick={() => likePost(item.code)}
+                      onChange={(e) => setLike(e.target.value)}
+                      style={{ margin: 0, color: "red" }}
+                    />
+                  ) : (
+                    <GradeIcon
+                      onClick={() => likePost(item.code)}
+                      onChange={(e) => setLike(e.target.value)}
+                      style={{ margin: 0 }}
+                    />
+                  )}
                 </IconButton>
+
                 <IconButton aria-label="share">
                   <CommentModal postCode={item.code} />
                   {/*<CommentModal post={item.code} />; passando informação para outro componente */}
