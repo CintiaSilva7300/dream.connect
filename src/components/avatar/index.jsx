@@ -1,12 +1,15 @@
 import * as React from "react";
+import jwt_decode from "jwt-decode";
 import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
-import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import jwt_decode from "jwt-decode";
+import PlaceIcon from "@mui/icons-material/Place";
 
-import { API_PROD, GOOGLE_API_KEY } from "../../utils/environments";
+import { styled } from "@mui/material/styles";
+import { API_PROD } from "../../utils/environments";
+
+const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -29,46 +32,37 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export default function AvatarIcon() {
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState(null);
-  const [country, setCountry] = useState(false);
-
-  const actualLocation = () => {};
+  const [country, setCountry] = useState(null);
 
   useEffect(() => {
-    //localização atual
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
+    const fetchCountry = async () => {
+      try {
+        const { coords } = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
 
-          try {
-            const response = await fetch(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
-            );
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.latitude},${coords.longitude}&key=${REACT_APP_GOOGLE_API_KEY}`
+        );
 
-            const data = await response.json();
+        const data = await response.json();
+        const countryComponent = data.results.find((component) =>
+          component.types.includes("country")
+        );
 
-            // Procurando o componente "country" nos resultados
-            const countryComponent = data.results.find((component) =>
-              component.types.includes("country")
-            );
-
-            if (countryComponent) {
-              setCountry(countryComponent.formatted_address);
-            } else {
-              console.error("Informações de país não encontradas");
-            }
-          } catch (error) {
-            console.error("Erro ao obter informações de localização:", error);
-          }
-        },
-        (error) => {
-          console.error("Erro ao obter a localização:", error);
+        if (countryComponent) {
+          setCountry(countryComponent.formatted_address);
+        } else {
+          console.error("Informações de país não encontradas");
         }
-      );
-    } else {
-      console.error("Geolocalização não suportada");
+      } catch (error) {
+        console.error("Erro ao obter informações de localização:", error);
+      }
+    };
+    if (country === null) {
+      fetchCountry();
     }
-  }, []);
+  }, [country]);
 
   useEffect(() => {
     if (token) {
@@ -78,12 +72,12 @@ export default function AvatarIcon() {
   }, []);
 
   if (!userData) {
-    return <p>...</p>;
+    return <p>Carregando...</p>;
   }
 
   return (
-    <>
-      <Stack direction="row" spacing={2} style={{ display: "flex" }}>
+    <div style={{ display: "block" }}>
+      <Stack direction="row" spacing={2}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -96,19 +90,20 @@ export default function AvatarIcon() {
               marginLeft: 5,
               objectFit: "contain",
             }}
-            alt="Remy Sharp"
+            alt="avatar"
             src={`${API_PROD}/file/${userData.image}`}
           />
         </StyledBadge>
       </Stack>
 
-      <div>
-        {country !== null ? (
-          <p>País: {country}</p>
-        ) : (
-          <p>Obtendo a localização...</p>
-        )}
-      </div>
-    </>
+      {country !== null ? (
+        <div style={{ display: "flex", color: "#a2a2a2", padding: 2 }}>
+          <PlaceIcon style={{ width: 12, height: 12 }} />
+          <p style={{ fontSize: 10 }}>{country}</p>
+        </div>
+      ) : (
+        <PlaceIcon style={{ width: 12, height: 12 }} />
+      )}
+    </div>
   );
 }

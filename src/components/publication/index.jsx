@@ -29,6 +29,8 @@ export default function Publication() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fontWeight, setFontWeight] = React.useState("normal");
 
+  let fileId;
+
   useEffect(() => {
     if (token) {
       const decodeToken = jwt_decode(token);
@@ -53,6 +55,8 @@ export default function Publication() {
           api.get(`/post`).then((response) => {
             setPost(response.data);
           });
+
+          return setText(""), setSelectedFile(null);
         }
       });
   };
@@ -60,11 +64,13 @@ export default function Publication() {
   const handleFileUpload = (file) => {
     const formData = new FormData();
     formData.append("file", file);
+
     api
       .post("/file/upload", formData)
       .then((response) => {
         console.log("Arquivo enviado com sucesso:", response.data);
         setUrl_media(response.data.teste.id);
+        console.log("aaa >>>", url_media);
       })
       .catch((error) => {
         console.error("Erro ao enviar arquivo:", error);
@@ -97,10 +103,11 @@ export default function Publication() {
         </p>
 
         <Textarea
+          value={text}
           style={{
             borderColor: "#037199",
             margin: 20,
-            height: 150,
+            // height: 150,
             width: "95%",
           }}
           onChange={(e) => setText(e.target.value)}
@@ -120,6 +127,20 @@ export default function Publication() {
                   alt="foto"
                 />
               </a>
+
+              {selectedFile && (
+                <img
+                  style={{
+                    marginTop: 10,
+
+                    width: 425,
+                    height: 500,
+                    objectFit: "contain",
+                  }}
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="img"
+                />
+              )}
             </Box>
           }
           endDecorator={
@@ -141,6 +162,7 @@ export default function Publication() {
                 <FormatBold />
                 <KeyboardArrowDown fontSize="md" />
               </IconButton>
+
               <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
@@ -166,6 +188,7 @@ export default function Publication() {
                   </MenuItem>
                 ))}
               </Menu>
+
               <IconButton
                 variant={italic ? "soft" : "plain"}
                 color={italic ? "primary" : "neutral"}

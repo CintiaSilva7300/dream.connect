@@ -86,7 +86,7 @@ export default function CardToPostUser() {
                 <p style={styles.text}>{item.text} </p>
                 <div>
                   <img
-                    style={{ width: 521, height: 500 }}
+                    style={{ width: 521, height: 500, objectFit: "contain" }}
                     src={`${API_PROD}/file/${item.url_media}`}
                     alt="foto"
                   />

@@ -95,7 +95,7 @@ export default function PublicationCard({ posts }) {
               <p style={styles.text}>{item.text}</p>
               <div>
                 <img
-                  style={{ width: 521, height: 500, objectFit: "contain" }}
+                  style={{ width: 521, height: 500, objectFit: "contain" }} //essa "objectFit: "contain"" torna a imagem responsiva
                   src={`${API_PROD}/file/${item.url_media}`}
                   alt="foto"
                 />
