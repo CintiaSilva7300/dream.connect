@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import GradeIcon from "@mui/icons-material/Grade";
 import IconButton from "@mui/material/IconButton";
@@ -10,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import styles from "./styles";
 import { CardText } from "./styles";
 import api from "../../../../utils/Api/api";
-import AvatarIcon from "../../../avatar/index";
+import Avatar from "../../../avatar/index";
 import CommentModal from "../modalComment/index";
 import AccordionComment from "../../../accordionComment";
 import { API_PROD } from "../../../../utils/environments";
@@ -18,6 +18,37 @@ import { API_PROD } from "../../../../utils/environments";
 export default function PublicationCard({ posts }) {
   const [like, setLike] = useState();
   const [likeStatus, setLikeStatus] = useState({});
+  const [likeCounts, setLikeCounts] = useState({});
+
+  useEffect(() => {
+    const fetchAllLikes = async () => {
+      try {
+        const likesData = await api.get("/like");
+        const allLikes = likesData.data;
+
+        // Inicialize likeStatus com os likes existentes
+        const initialLikeStatus = {};
+        allLikes.forEach((like) => {
+          initialLikeStatus[like.postCode] = true;
+        });
+        setLikeStatus(initialLikeStatus);
+
+        // Atualize a contagem de likes para o post
+        const initialLikeCounts = {};
+        posts.forEach((post) => {
+          const postLikes = allLikes.filter(
+            (like) => like.postCode === post.code
+          );
+          initialLikeCounts[post.code] = postLikes.length;
+        });
+        setLikeCounts(initialLikeCounts);
+      } catch (error) {
+        console.error("Erro ao buscar os likes:", error);
+      }
+    };
+
+    fetchAllLikes();
+  }, [posts]); // Certifique-se de atualizar os likes quando os posts mudarem
 
   const likePost = (postCode) => {
     if (!likeStatus[postCode]) {
@@ -30,6 +61,12 @@ export default function PublicationCard({ posts }) {
           setLikeStatus((prevLikeStatus) => ({
             ...prevLikeStatus,
             [postCode]: true,
+          }));
+
+          // Atualize a contagem de likes para o post
+          setLikeCounts((prevLikeCounts) => ({
+            ...prevLikeCounts,
+            [postCode]: (prevLikeCounts[postCode] || 0) + 1,
           }));
           console.log("Post curtido:", response.data);
         })
@@ -86,7 +123,7 @@ export default function PublicationCard({ posts }) {
                     padding: 5,
                   }}
                 >
-                  <AvatarIcon />
+                  <Avatar imagePostUser={item.user.image} />
                   <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
                     {item.user.name}
                   </p>
@@ -115,6 +152,17 @@ export default function PublicationCard({ posts }) {
                       style={{ margin: 0 }}
                     />
                   )}
+                  {likeCounts[item.code] > 0 && (
+                    <p
+                      style={{
+                        fontSize: 12,
+                        color: "#6f6f6f",
+                        marginTop: 2,
+                      }}
+                    >
+                      {likeCounts[item.code]}
+                    </p>
+                  )}
                 </IconButton>
 
                 <IconButton aria-label="share">
@@ -137,7 +185,7 @@ export default function PublicationCard({ posts }) {
                     padding: 5,
                   }}
                 >
-                  <AvatarIcon />
+                  <Avatar />
                   <p style={styles.nameText}>{item.user.name}</p>
                 </div>
                 <p style={styles.conteudoText}>{item.text}</p>

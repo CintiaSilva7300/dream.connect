@@ -29,7 +29,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export default function AvatarIcon() {
+export default function AvatarIcon({ imagePostUser }) {
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState(null);
   const [country, setCountry] = useState(null);
@@ -91,7 +91,7 @@ export default function AvatarIcon() {
               objectFit: "contain",
             }}
             alt="avatar"
-            src={`${API_PROD}/file/${userData.image}`}
+            src={`${API_PROD}/file/${imagePostUser}`}
           />
         </StyledBadge>
       </Stack>

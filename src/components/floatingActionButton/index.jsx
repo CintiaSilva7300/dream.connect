@@ -9,8 +9,9 @@ import { useTheme } from "@mui/material/styles";
 import GradeIcon from "@mui/icons-material/Grade";
 import Typography from "@mui/material/Typography";
 
-import Publication from "./../publication/index";
 import styles from "./style";
+import PublicationLiked from "../publicationLiked";
+import Publication from "./../publication/index";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +82,7 @@ export default function FloatingActionButton() {
             <Publication />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
+            <PublicationLiked />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             Item Three

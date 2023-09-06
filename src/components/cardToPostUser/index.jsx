@@ -2,6 +2,7 @@ import * as React from "react";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -53,7 +54,6 @@ export default function CardToPostUser() {
   const filteredPostsToUser = post.filter(
     (singlePost) => singlePost.user.email === userData.email
   );
-  // console.log("filter", filteredPostsToUser);
 
   return (
     <>
@@ -77,7 +77,19 @@ export default function CardToPostUser() {
                       padding: 5,
                     }}
                   >
-                    <AvatarIcon />
+                    {/* <AvatarIcon /> */}
+
+                    <Avatar
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        marginLeft: 5,
+                        objectFit: "contain",
+                      }}
+                      alt="avatar"
+                      src={`${API_PROD}/file/${item.user.image}`}
+                    />
+
                     <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
                       {item.user.name}
                     </p>

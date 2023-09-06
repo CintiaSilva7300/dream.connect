@@ -29,8 +29,6 @@ export default function Publication() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fontWeight, setFontWeight] = React.useState("normal");
 
-  let fileId;
-
   useEffect(() => {
     if (token) {
       const decodeToken = jwt_decode(token);
@@ -70,7 +68,6 @@ export default function Publication() {
       .then((response) => {
         console.log("Arquivo enviado com sucesso:", response.data);
         setUrl_media(response.data.teste.id);
-        console.log("aaa >>>", url_media);
       })
       .catch((error) => {
         console.error("Erro ao enviar arquivo:", error);
@@ -122,6 +119,7 @@ export default function Publication() {
                     width: 30,
                     height: 30,
                     borderRadius: "50%",
+                    objectFit: "contain",
                   }}
                   src={`${API_PROD}/file/${userData.image}`}
                   alt="foto"

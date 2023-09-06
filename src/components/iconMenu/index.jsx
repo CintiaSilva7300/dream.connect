@@ -1,10 +1,10 @@
-import * as React from 'react';
-import Menu from '@mui/material/Menu';
-import { useNavigate } from 'react-router';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import LogoutIcon from '@mui/icons-material/Logout';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import * as React from "react";
+import Menu from "@mui/material/Menu";
+import { useNavigate } from "react-router";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export default function IconMenu() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function IconMenu() {
   const logout = () => {
     if (logout) {
       localStorage.clear();
-      navigate('/login');
+      navigate("/user/login");
     }
   };
 
@@ -31,8 +31,8 @@ export default function IconMenu() {
           margin: 0,
           padding: 0,
         }}
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
+        aria-controls={open ? "long-menu" : undefined}
+        aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
       >
@@ -42,9 +42,9 @@ export default function IconMenu() {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        style={{ textAlign: 'center' }}
+        style={{ textAlign: "center" }}
       >
-        <MenuItem onClick={handleClose} style={{ display: 'block' }}>
+        <MenuItem onClick={handleClose} style={{ display: "block" }}>
           <LogoutIcon onClick={logout} />
         </MenuItem>
       </Menu>
