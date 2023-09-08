@@ -50,6 +50,13 @@ const styles = {
     fontWeight: 400,
     color: '#037199',
   },
+  lineHorizont: {
+    boxShadow:' 0 0.10px 0 0 #6f6f6f',
+    height: 1,
+    margin: '0px 0px',
+    width:'100%'
+    
+  }
 };
 
 export default styles;

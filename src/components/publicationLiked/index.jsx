@@ -7,21 +7,10 @@ export default function PublicationLiked() {
   const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
-    // Passo 1: Obter a lista de publicações curtidas pelo usuário
     api
-      .get(`${API_PROD}/like`)
+      .get(`${API_PROD}/post/getLikedPostByUserCode`)
       .then((response) => {
-        const likedPostCodes = response.data.map((like) => like.postCode);
-
-        // Passo 2: Obter as publicações correspondentes com base nos códigos das publicações curtidas
-        api.get(`${API_PROD}/post`).then((response) => {
-          const allPosts = response.data;
-          const userLikedPosts = allPosts.filter((post) =>
-            likedPostCodes.includes(post.code)
-          );
-          // Atualizar o estado com as publicações curtidas pelo usuário
-          setLikedPosts(userLikedPosts);
-        });
+        setLikedPosts(response.data);
       })
       .catch((error) => {
         console.error("Error fetching liked posts:", error);

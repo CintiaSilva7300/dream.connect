@@ -14,6 +14,7 @@ import Avatar from "../../../avatar/index";
 import CommentModal from "../modalComment/index";
 import AccordionComment from "../../../accordionComment";
 import { API_PROD } from "../../../../utils/environments";
+import CommentDinamic from "../../../CommentDinamic";
 
 export default function PublicationCard({ posts }) {
   const [like, setLike] = useState();
@@ -107,73 +108,85 @@ export default function PublicationCard({ posts }) {
       {posts.map((item) => (
         <>
           {item.url_media ? (
-            <div style={styles.box}>
-              <div
-                style={{
-                  fontFamily: "sans-serif",
-                  fontSize: 13,
-                  fontWeight: 400,
-                  color: "#037199",
-                }}
-              >
+            <div>
+              <div style={styles.box}>
                 <div
                   style={{
-                    display: "flex",
-                    marginTop: 10,
-                    padding: 5,
+                    fontFamily: "sans-serif",
+                    fontSize: 13,
+                    fontWeight: 400,
+                    color: "#037199",
                   }}
                 >
-                  <Avatar imagePostUser={item.user.image} />
-                  <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
-                    {item.user.name}
-                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      marginTop: 10,
+                      padding: 5,
+                    }}
+                  >
+                    <Avatar imagePostUser={item.user.image} />
+                    <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
+                      {item.user.name}
+                    </p>
+                  </div>
+                </div>
+                <p style={styles.text}>{item.text}</p>
+                <div>
+                  <img
+                    style={{ width: 521, height: 500, objectFit: "contain" }} //essa "objectFit: "contain"" torna a imagem responsiva
+                    src={`${API_PROD}/file/${item.url_media}`}
+                    alt="foto"
+                  />
+                </div>
+                <div>
+                  <div style={styles.lineHorizont}></div>
+                  <IconButton aria-label="add to favorites">
+                    {likeStatus[item.code] ? (
+                      <GradeIcon
+                        onClick={() => likePost(item.code)}
+                        onChange={(e) => setLike(e.target.value)}
+                        style={{ margin: 0, color: "red" }}
+                      />
+                    ) : (
+                      <GradeIcon
+                        onClick={() => likePost(item.code)}
+                        onChange={(e) => setLike(e.target.value)}
+                        style={{ margin: 0 }}
+                      />
+                    )}
+                    {likeCounts[item.code] > 0 && (
+                      <p
+                        style={{
+                          fontSize: 12,
+                          color: "#6f6f6f",
+                          marginTop: 2,
+                        }}
+                      >
+                        {likeCounts[item.code]}
+                      </p>
+                    )}
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <CommentModal postCode={item.code} />
+                    {/*<CommentModal post={item.code} />; passando informação para outro componente */}
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <ShareIcon />
+                  </IconButton>
+                  <a
+                    style={{
+                      marginLeft: 315,
+                      color: "#999",
+                      textDecoration: "underline",
+                      fontSize: 14,
+                    }}
+                  >
+                    comentário
+                  </a>
                 </div>
               </div>
-              <p style={styles.text}>{item.text}</p>
-              <div>
-                <img
-                  style={{ width: 521, height: 500, objectFit: "contain" }} //essa "objectFit: "contain"" torna a imagem responsiva
-                  src={`${API_PROD}/file/${item.url_media}`}
-                  alt="foto"
-                />
-              </div>
-              <div>
-                <IconButton aria-label="add to favorites">
-                  {likeStatus[item.code] ? (
-                    <GradeIcon
-                      onClick={() => likePost(item.code)}
-                      onChange={(e) => setLike(e.target.value)}
-                      style={{ margin: 0, color: "red" }}
-                    />
-                  ) : (
-                    <GradeIcon
-                      onClick={() => likePost(item.code)}
-                      onChange={(e) => setLike(e.target.value)}
-                      style={{ margin: 0 }}
-                    />
-                  )}
-                  {likeCounts[item.code] > 0 && (
-                    <p
-                      style={{
-                        fontSize: 12,
-                        color: "#6f6f6f",
-                        marginTop: 2,
-                      }}
-                    >
-                      {likeCounts[item.code]}
-                    </p>
-                  )}
-                </IconButton>
-
-                <IconButton aria-label="share">
-                  <CommentModal postCode={item.code} />
-                  {/*<CommentModal post={item.code} />; passando informação para outro componente */}
-                </IconButton>
-                <IconButton aria-label="share">
-                  <ShareIcon />
-                </IconButton>
-              </div>
-              <AccordionComment post={item} />
+              <CommentDinamic post={item} />
             </div>
           ) : (
             <CardText>
