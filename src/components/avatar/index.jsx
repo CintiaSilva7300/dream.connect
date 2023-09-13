@@ -1,6 +1,4 @@
-import axios from "axios";
 import * as React from "react";
-import jwt_decode from "jwt-decode";
 import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
@@ -9,8 +7,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 
 import { styled } from "@mui/material/styles";
 import { API_PROD } from "../../utils/environments";
-
-const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
+import { getCountryFromGeolocation } from "../../utils/geolocation";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -34,32 +31,13 @@ export default function AvatarIcon({ imagePostUser }) {
   const [country, setCountry] = useState(null);
 
   useEffect(() => {
-    const fetchCountry = async () => {
-      try {
-        const { coords } = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-
-        const response = await fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.latitude},${coords.longitude}&key=${REACT_APP_GOOGLE_API_KEY}`
-        );
-
-        const data = await response.json();
-        const countryComponent = data.results.find((component) =>
-          component.types.includes("country")
-        );
-
-        if (countryComponent) {
-          setCountry(countryComponent.formatted_address);
-        } else {
-          console.error("Informações de país não encontradas");
-        }
-      } catch (error) {
-        console.error("Erro ao obter informações de localização:", error);
-      }
-    };
     if (country === null) {
-      fetchCountry();
+      // Use a função importada para obter o país
+      getCountryFromGeolocation().then((countryData) => {
+        if (countryData) {
+          setCountry(countryData);
+        }
+      });
     }
   }, [country]);
 

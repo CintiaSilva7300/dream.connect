@@ -40,7 +40,7 @@ const styles = {
   },
   box: {
     boxShadow: ' 0 8px 16px 0 rgba(0, 0, 0, 0.2)',
-    marginTop: 10,
+    marginTop: 30,
     width: 520,
   },
   text: {

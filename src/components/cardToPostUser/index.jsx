@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";

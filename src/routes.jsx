@@ -11,8 +11,6 @@ import Home from "./screans/home/";
 import Signup from "./screans/signup";
 import Perfil from "./screans/perfil/index";
 
-import Teste from "./screans/teste";
-
 export default function RoutesConfig() {
   const PrivateRoutes = () => {
     let validateToken = localStorage.getItem("token") == null ? false : true;
@@ -28,7 +26,6 @@ export default function RoutesConfig() {
         <Route path="/user/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/teste" element={<Teste />} />
         {/* <Route path='*' element={<NotFound />} /> */}
       </Routes>
     </Router>

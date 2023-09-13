@@ -3,15 +3,16 @@ import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
 import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
-import React, { useEffect, useState } from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlaceIcon from "@mui/icons-material/Place";
 import GradeIcon from "@mui/icons-material/Grade";
+import React, { useEffect, useState } from "react";
 
 import styles from "./styles";
 import api from "../../utils/Api/api";
 import CommentDinamic from "../CommentDinamic";
 import { API_PROD } from "../../utils/environments";
 import CommentModal from "../publication/components/modalComment";
+import { getCountryFromGeolocation } from "../../utils/geolocation.js";
 
 export default function PublicationLiked() {
   const [likedPosts, setLikedPosts] = useState([]);
@@ -35,9 +36,34 @@ export default function PublicationLiked() {
       });
   }, []);
 
+  const [country, setCountry] = useState(null);
+
+  useEffect(() => {
+    if (country === null) {
+      getCountryFromGeolocation().then((countryData) => {
+        if (countryData) {
+          setCountry(countryData);
+        }
+      });
+    }
+  }, [country]);
+
   return (
     <>
-      <Container maxWidth="sm" style={{ marginTop: 100 }}>
+      <Container
+        maxWidth="sm"
+        style={{
+          marginTop: 10,
+          fontSize: 22,
+          fontFamily: "sans-serif",
+          fontWeight: 400,
+        }}
+      >
+        <div style={{ display: "flex", color: "#037199" }}>
+          <p>Publicações marcadas como Favorito</p>
+          <GradeIcon style={{ margin: 0, color: "#037199", marginTop: 5 }} />
+        </div>
+
         {likedPosts.map((item) => (
           <>
             <div style={styles.box}>
@@ -71,6 +97,18 @@ export default function PublicationLiked() {
                     {item.user.name}
                   </p>
                 </div>
+                {country !== null ? (
+                  <div
+                    style={{ display: "flex", color: "#a2a2a2", padding: 1 }}
+                  >
+                    <PlaceIcon style={{ width: 12, height: 12 }} />
+                    <p style={{ fontSize: 10 }}>
+                      {country.replace("SP, ", "")}
+                    </p>
+                  </div>
+                ) : (
+                  <PlaceIcon style={{ width: 12, height: 12 }} />
+                )}
               </div>
               <p style={styles.text}>{item.text} </p>
               <div>

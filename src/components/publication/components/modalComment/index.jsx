@@ -149,7 +149,7 @@ export default function CommentModalChild({ postCode }) {
                       type="file"
                       id="teste"
                     ></input>
-                    <label for="teste" class="btnPerson" style={{ margin: 5 }}>
+                    <label for="teste" style={{ margin: 5 }}>
                       imagem
                     </label>
                   </div>

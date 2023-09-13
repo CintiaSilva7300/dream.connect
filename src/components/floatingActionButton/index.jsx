@@ -70,7 +70,6 @@ export default function FloatingActionButton() {
           >
             <Tab label={<FeedIcon />} {...a11yProps(0)} />
             <Tab label={<GradeIcon />} {...a11yProps(0)} />
-            {/* <Tab style={{ color: BLUE }} label="SEILA" {...a11yProps(2)} /> */}
           </Tabs>
         </AppBar>
         <div

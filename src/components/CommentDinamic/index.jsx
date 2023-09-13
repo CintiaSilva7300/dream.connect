@@ -11,7 +11,7 @@ export default function CommentDinamic({ post }) {
         <div style={{ fontFamily: "sans-serif" }}>
           <div>
             <div
-              class="comments-container"
+              className="comments-container"
               style={{
                 margin: -0,
                 marginTop: -0,
@@ -19,12 +19,12 @@ export default function CommentDinamic({ post }) {
                 padding: 0,
               }}
             >
-              <ul class="comments-list">
+              <ul className="comments-list">
                 <li>
-                  <ul class="comments-list reply-list">
+                  <ul className="comments-list reply-list">
                     <li>
                       <div
-                        class="comment-avatar"
+                        className="comment-avatar"
                         style={{
                           marginTop: -10,
                           marginLeft: 0,
@@ -39,7 +39,7 @@ export default function CommentDinamic({ post }) {
                       </div>
 
                       <div
-                        class="comment-box"
+                        className="comment-box"
                         style={{
                           width: 455,
                           marginLeft: 55,
@@ -49,15 +49,15 @@ export default function CommentDinamic({ post }) {
                           borderRadius: 3,
                         }}
                       >
-                        <div class="comment-head">
-                          <h6 class="comment-name">
+                        <div className="comment-head">
+                          <h6 className="comment-name">
                             <a href="/perfil">{comment.user.name}</a>
                           </h6>
-                          <span class="posted-time">
+                          <span className="posted-time">
                             {formatDateToStringDateBr(comment.registerDate)}
                           </span>
                         </div>
-                        <div class="comment-content">{comment.text}</div>
+                        <div className="comment-content">{comment.text}</div>
                       </div>
                     </li>
                   </ul>

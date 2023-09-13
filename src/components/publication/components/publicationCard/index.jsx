@@ -165,7 +165,7 @@ export default function PublicationCard({ posts, userCurrent }) {
                   ) : (
                     <GradeIcon
                       onClick={() => likePost(item.code)}
-                      style={{ margin: 0, color: "blue" }}
+                      style={{ margin: 0, color: "" }}
                     />
                   )}
                   {likeCounts[item.code] > 0 && (
@@ -183,7 +183,6 @@ export default function PublicationCard({ posts, userCurrent }) {
 
                 <IconButton aria-label="share">
                   <CommentModal postCode={item.code} />
-                  {/*<CommentModal post={item.code} />; passando informação para outro componente */}
                 </IconButton>
                 <IconButton aria-label="share">
                   <ShareIcon />

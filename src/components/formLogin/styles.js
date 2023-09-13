@@ -10,13 +10,6 @@ const styles = {
     width: '50%',
     margin: 10,
   },
-  button: {
-    backgroundColor: '#037199',
-    width: '50%',
-    margin: 10,
-    height: 50,
-    borderRadius: 20,
-  },
   a: {
     color: '#037199',
   },

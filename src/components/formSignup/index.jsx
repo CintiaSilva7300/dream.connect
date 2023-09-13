@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import IconButton from "@mui/material/IconButton";
 import FormControl from "@mui/material/FormControl";
@@ -16,9 +14,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-import api from "../../utils/Api/api";
 import styles from "./styles";
+import api from "../../utils/Api/api";
 import { BLUE } from "../../utils/constants";
+import CustomButton from "../basicComponents/CustomButton";
+import CustomTextField from "../basicComponents/CustomTextField";
 
 const currencies = [
   {
@@ -102,7 +102,7 @@ export default function FormSigNup() {
         setImage(response.data.teste.id);
       })
       .catch((error) => {
-        console.error("Erro ao enviar arquivo:", error);
+        return error;
       });
   };
 
@@ -117,20 +117,11 @@ export default function FormSigNup() {
         Venha fazer parte da comunidade, <strong>CONECTE-SE</strong>
       </h1>
 
-      <TextField
-        onChange={(e) => setName(e.target.value)}
-        label="Name"
-        variant="outlined"
-        autocomplete="off"
-        style={styles.textField}
-      />
+      <CustomTextField onChange={(e) => setName(e.target.value)} label="Name" />
 
-      <TextField
+      <CustomTextField
         onChange={(e) => setSecondName(e.target.value)}
         label="Second Name"
-        variant="outlined"
-        autocomplete="off"
-        style={styles.textField}
       />
 
       <div
@@ -146,28 +137,18 @@ export default function FormSigNup() {
           style={{ width: 138, marginTop: 12, padding: 1 }}
           onChange={handleFileChange}
           type="file"
-          id="teste"
         />
-        <label for="teste" class="btnPerson" style={{ margin: 5 }}>
-          Escolha imagem
-        </label>
+        <label style={{ margin: 5 }}>Escolha imagem</label>
       </div>
 
-      <TextField
+      <CustomTextField
         onChange={(e) => setEmail(e.target.value)}
         label="E-mail"
-        variant="outlined"
-        autocomplete="off"
-        style={styles.textField}
       />
 
-      <TextField
+      <CustomTextField
         onChange={(e) => setTelephone(e.target.value)}
         label="Telephone"
-        variant="outlined"
-        autocomplete="off"
-        style={styles.textField}
-        type="number"
         onInput={(e) => {
           e.target.value = Math.max(0, parseInt(e.target.value))
             .toString()
@@ -175,20 +156,17 @@ export default function FormSigNup() {
         }}
       />
 
-      <TextField
+      <CustomTextField
         onChange={(e) => setGenre(e.target.value)}
-        autocomplete="off"
-        style={styles.textField}
-        id="outlined-select-currency"
-        select
         label="Genre"
+        select
       >
         {currencies.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
           </MenuItem>
         ))}
-      </TextField>
+      </CustomTextField>
 
       <div style={styles.date}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -246,10 +224,9 @@ export default function FormSigNup() {
         />
       </FormControl>
 
-      <Button onClick={loginUser} variant="contained" style={styles.button}>
-        Cadastrar-se
-      </Button>
-      <a style={{ color: BLUE }} href="/login">
+      <CustomButton onClick={loginUser}>Cadastrar-se</CustomButton>
+
+      <a style={{ color: BLUE }} href="/user/login">
         Ja possui conta?
       </a>
     </div>

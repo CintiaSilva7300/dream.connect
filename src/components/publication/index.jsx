@@ -1,7 +1,6 @@
 import Box from "@mui/joy/Box";
 import Menu from "@mui/joy/Menu";
 import jwt_decode from "jwt-decode";
-import Button from "@mui/joy/Button";
 import Textarea from "@mui/joy/Textarea";
 import MenuItem from "@mui/joy/MenuItem";
 import React, { useState, useEffect } from "react";
@@ -17,6 +16,7 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import api from "../../utils/Api/api";
 import { API_PROD } from "../../utils/environments";
 import PublicationCard from "./components/publicationCard/index";
+import CustomButton from "../basicComponents/CustomButton";
 
 export default function Publication() {
   const [text, setText] = useState();
@@ -92,10 +92,10 @@ export default function Publication() {
             fontFamily: "sans-serif",
             fontWeight: 400,
             color: "#037199",
-            textAlign: "center",
+            marginLeft: 20,
           }}
         >
-          Faça uma publicação agora, {userData.name}{" "}
+          Faça uma publicação agora, {userData.name}
         </p>
 
         <Textarea
@@ -103,7 +103,6 @@ export default function Publication() {
           style={{
             borderColor: "#037199",
             margin: 20,
-            // height: 150,
             width: "95%",
           }}
           onChange={(e) => setText(e.target.value)}
@@ -197,28 +196,24 @@ export default function Publication() {
 
               <div>
                 <input
-                  style={{ width: 135 }}
+                  style={{ width: 300 }}
                   onChange={handleFileChange}
                   type="file"
                   id="teste"
                 ></input>
-                <label for="teste" class="btnPerson" style={{ margin: 5 }}>
-                  Escolha imagem
-                </label>
               </div>
 
-              <Button
+              <CustomButton
                 onClick={publication}
-                sx={{ ml: "auto" }}
                 style={{
-                  backgroundColor: "#037199",
                   width: 100,
-                  height: 20,
+                  height: 30,
                   borderRadius: 20,
+                  backgroundColor: "#037199",
                 }}
               >
                 Publicar
-              </Button>
+              </CustomButton>
             </Box>
           }
           sx={{

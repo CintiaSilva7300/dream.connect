@@ -25,7 +25,7 @@ export default function Login() {
         </h1>
       </div>
       <div style={styles.container}>
-        <div class="main" id="scrollCard">
+        <div id="scrollCard">
           <Card>
             <div>
               <img style={styles.img} src="" alt="" />
