@@ -1,25 +1,31 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
-import GradeIcon from "@mui/icons-material/Grade";
 import IconButton from "@mui/material/IconButton";
+import GradeIcon from "@mui/icons-material/Grade";
 import ShareIcon from "@mui/icons-material/Share";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import styles from "./styles";
-import { CardText } from "./styles";
 import api from "../../../../utils/Api/api";
 import Avatar from "../../../avatar/index";
 import CommentModal from "../modalComment/index";
-import AccordionComment from "../../../accordionComment";
 import { API_PROD } from "../../../../utils/environments";
 import CommentDinamic from "../../../CommentDinamic";
 
-export default function PublicationCard({ posts }) {
+export default function PublicationCard({ posts, userCurrent }) {
   const [like, setLike] = useState();
   const [likeStatus, setLikeStatus] = useState({});
   const [likeCounts, setLikeCounts] = useState({});
+  const [showComments, setShowComments] = useState({});
+  let user = userCurrent.code;
+
+  const toggleComments = (postCode) => {
+    setShowComments((prevState) => ({
+      ...prevState,
+      [postCode]: !prevState[postCode],
+    }));
+  };
 
   useEffect(() => {
     const fetchAllLikes = async () => {
@@ -31,6 +37,7 @@ export default function PublicationCard({ posts }) {
         const initialLikeStatus = {};
         allLikes.forEach((like) => {
           initialLikeStatus[like.postCode] = true;
+          setLike(allLikes);
         });
         setLikeStatus(initialLikeStatus);
 
@@ -47,7 +54,6 @@ export default function PublicationCard({ posts }) {
         console.error("Erro ao buscar os likes:", error);
       }
     };
-
     fetchAllLikes();
   }, [posts]); // Certifique-se de atualizar os likes quando os posts mudarem
 
@@ -103,94 +109,23 @@ export default function PublicationCard({ posts }) {
     );
   }
 
+  console.log(posts);
+
   return (
     <Container maxWidth="sm">
       {posts.map((item) => (
         <>
-          {item.url_media ? (
-            <div>
-              <div style={styles.box}>
-                <div
-                  style={{
-                    fontFamily: "sans-serif",
-                    fontSize: 13,
-                    fontWeight: 400,
-                    color: "#037199",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      marginTop: 10,
-                      padding: 5,
-                    }}
-                  >
-                    <Avatar imagePostUser={item.user.image} />
-                    <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
-                      {item.user.name}
-                    </p>
-                  </div>
-                </div>
-                <p style={styles.text}>{item.text}</p>
-                <div>
-                  <img
-                    style={{ width: 521, height: 500, objectFit: "contain" }} //essa "objectFit: "contain"" torna a imagem responsiva
-                    src={`${API_PROD}/file/${item.url_media}`}
-                    alt="foto"
-                  />
-                </div>
-                <div>
-                  <div style={styles.lineHorizont}></div>
-                  <IconButton aria-label="add to favorites">
-                    {likeStatus[item.code] ? (
-                      <GradeIcon
-                        onClick={() => likePost(item.code)}
-                        onChange={(e) => setLike(e.target.value)}
-                        style={{ margin: 0, color: "red" }}
-                      />
-                    ) : (
-                      <GradeIcon
-                        onClick={() => likePost(item.code)}
-                        onChange={(e) => setLike(e.target.value)}
-                        style={{ margin: 0 }}
-                      />
-                    )}
-                    {likeCounts[item.code] > 0 && (
-                      <p
-                        style={{
-                          fontSize: 12,
-                          color: "#6f6f6f",
-                          marginTop: 2,
-                        }}
-                      >
-                        {likeCounts[item.code]}
-                      </p>
-                    )}
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <CommentModal postCode={item.code} />
-                    {/*<CommentModal post={item.code} />; passando informação para outro componente */}
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                  <a
-                    style={{
-                      marginLeft: 315,
-                      color: "#999",
-                      textDecoration: "underline",
-                      fontSize: 14,
-                    }}
-                  >
-                    comentário
-                  </a>
-                </div>
-              </div>
-              <CommentDinamic post={item} />
-            </div>
-          ) : (
-            <CardText>
-              <div style={{ marginTop: 25 }}>
+          {/* {item.url_media ? ( */}
+          <div>
+            <div style={styles.box}>
+              <div
+                style={{
+                  fontFamily: "sans-serif",
+                  fontSize: 13,
+                  fontWeight: 400,
+                  color: "#037199",
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
@@ -198,23 +133,78 @@ export default function PublicationCard({ posts }) {
                     padding: 5,
                   }}
                 >
-                  <Avatar />
-                  <p style={styles.nameText}>{item.user.name}</p>
+                  <Avatar imagePostUser={item.user.image} />
+                  <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
+                    {item.user.name}
+                  </p>
                 </div>
-                <p style={styles.conteudoText}>{item.text}</p>
+              </div>
+              <p style={styles.text}>{item.text}</p>
+              <div>
+                <img
+                  style={{ width: 521, height: 500, objectFit: "contain" }} //essa "objectFit: "contain"" torna a imagem responsiva
+                  src={`${API_PROD}/file/${item.url_media}`}
+                  alt="foto"
+                />
+              </div>
+              <div>
+                <div style={styles.lineHorizont}></div>
+
                 <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
+                  {likeStatus[item.code] ? (
+                    <GradeIcon
+                      onClick={() => likePost(item.code)}
+                      style={{
+                        margin: 0,
+                        color:
+                          likeStatus[item.code] && user === item.userCode
+                            ? "red"
+                            : "",
+                      }}
+                    />
+                  ) : (
+                    <GradeIcon
+                      onClick={() => likePost(item.code)}
+                      style={{ margin: 0, color: "blue" }}
+                    />
+                  )}
+                  {likeCounts[item.code] > 0 && (
+                    <p
+                      style={{
+                        fontSize: 12,
+                        color: "#6f6f6f",
+                        marginTop: 2,
+                      }}
+                    >
+                      {likeCounts[item.code]}
+                    </p>
+                  )}
                 </IconButton>
+
                 <IconButton aria-label="share">
                   <CommentModal postCode={item.code} />
+                  {/*<CommentModal post={item.code} />; passando informação para outro componente */}
                 </IconButton>
                 <IconButton aria-label="share">
                   <ShareIcon />
                 </IconButton>
+                <a
+                  onClick={() => toggleComments(item.code)}
+                  style={{
+                    marginLeft: 300,
+                    color: "#999",
+                    textDecoration: "underline",
+                    fontSize: 14,
+                    cursor: "pointer",
+                  }}
+                >
+                  comentário {item.comments.length || ""}
+                </a>
               </div>
-              <AccordionComment post={item} />
-            </CardText>
-          )}
+            </div>
+            {showComments[item.code] && <CommentDinamic post={item} />}
+            {/* <CommentDinamic post={item} /> */}
+          </div>
         </>
       ))}
     </Container>

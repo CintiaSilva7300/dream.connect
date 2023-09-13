@@ -66,11 +66,10 @@ export default function Publication() {
     api
       .post("/file/upload", formData)
       .then((response) => {
-        console.log("Arquivo enviado com sucesso:", response.data);
         setUrl_media(response.data.teste.id);
       })
       .catch((error) => {
-        console.error("Erro ao enviar arquivo:", error);
+        return error;
       });
   };
 
@@ -231,7 +230,7 @@ export default function Publication() {
       </FormControl>
 
       <div style={{ marginTop: 25 }}>
-        <PublicationCard posts={post} />
+        <PublicationCard posts={post} userCurrent={userData} />
       </div>
     </Container>
   );

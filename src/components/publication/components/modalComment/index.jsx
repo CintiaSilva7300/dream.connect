@@ -47,7 +47,9 @@ export default function CommentModalChild({ postCode }) {
     }
   }, []);
 
-  const addEmoji = (emoji) => () => setTextInput(`${textInput}${emoji}`);
+  const addEmoji = (emoji) => () => {
+    setText((prevText) => prevText + emoji); // Atualiza o estado 'text'
+  };
 
   const handleChangeValue = (e) => {
     setText(e.target.value);
@@ -79,11 +81,10 @@ export default function CommentModalChild({ postCode }) {
     api
       .post("/file/upload", formData)
       .then((response) => {
-        console.log("Arquivo enviado com sucesso:", response.data);
         setUrl_media(response.data.teste.id);
       })
       .catch((error) => {
-        console.error("Erro ao enviar arquivo:", error);
+        return error;
       });
   };
 
@@ -114,7 +115,7 @@ export default function CommentModalChild({ postCode }) {
               onChange={handleChangeValue}
               id="transition-modal-title"
               placeholder="Type in here…"
-              value={textInput}
+              value={text}
               minRows={2}
               maxRows={4}
               startDecorator={

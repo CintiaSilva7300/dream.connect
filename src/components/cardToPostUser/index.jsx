@@ -6,19 +6,25 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import AccordionComment from "../accordionComment";
 
 import styles from "./styles";
-import AvatarIcon from "../avatar";
-import { CardText } from "./styles";
 import api from "../../utils/Api/api";
 import { API_PROD } from "../../utils/environments";
 import CommentModal from "../publication/components/modalComment";
+import CommentDinamic from "../CommentDinamic";
 
 export default function CardToPostUser() {
   const token = localStorage.getItem("token");
   const [userData, setUserData] = useState(null);
   const [post, setPost] = React.useState(null);
+  const [showComments, setShowComments] = useState({});
+
+  const toggleComments = (postCode) => {
+    setShowComments((prevState) => ({
+      ...prevState,
+      [postCode]: !prevState[postCode],
+    }));
+  };
 
   useEffect(() => {
     if (token) {
@@ -60,90 +66,70 @@ export default function CardToPostUser() {
       <Container maxWidth="sm" style={{ marginTop: 100 }}>
         {filteredPostsToUser.map((item) => (
           <>
-            {item.url_media ? (
-              <div style={styles.box}>
+            <div style={styles.box}>
+              <div
+                style={{
+                  fontFamily: "sans-serif",
+                  fontSize: 13,
+                  fontWeight: 400,
+                  color: "#037199",
+                }}
+              >
                 <div
                   style={{
-                    fontFamily: "sans-serif",
-                    fontSize: 13,
-                    fontWeight: 400,
-                    color: "#037199",
+                    display: "flex",
+                    marginTop: 10,
+                    padding: 5,
                   }}
                 >
-                  <div
+                  <Avatar
                     style={{
-                      display: "flex",
-                      marginTop: 10,
-                      padding: 5,
+                      margin: 0,
+                      padding: 0,
+                      marginLeft: 5,
+                      objectFit: "contain",
                     }}
-                  >
-                    {/* <AvatarIcon /> */}
-
-                    <Avatar
-                      style={{
-                        margin: 0,
-                        padding: 0,
-                        marginLeft: 5,
-                        objectFit: "contain",
-                      }}
-                      alt="avatar"
-                      src={`${API_PROD}/file/${item.user.image}`}
-                    />
-
-                    <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
-                      {item.user.name}
-                    </p>
-                  </div>
-                </div>
-                <p style={styles.text}>{item.text} </p>
-                <div>
-                  <img
-                    style={{ width: 521, height: 500, objectFit: "contain" }}
-                    src={`${API_PROD}/file/${item.url_media}`}
-                    alt="foto"
+                    alt="avatar"
+                    src={`${API_PROD}/file/${item.user.image}`}
                   />
+
+                  <p style={{ marginTop: 5, margin: 5, cursor: "pointer" }}>
+                    {item.user.name}
+                  </p>
                 </div>
-                <div>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon style={{ margin: 0 }} />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <CommentModal postCode={item.code} />
-                    {/*<CommentModal post={item.code} />; passando informação para outro componente */}
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </div>
-                <AccordionComment post={item} />
               </div>
-            ) : (
-              <CardText>
-                <div style={{ marginTop: 25 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      marginTop: 10,
-                      padding: 5,
-                    }}
-                  >
-                    <AvatarIcon />
-                    <p style={styles.nameText}>{item.user.name}</p>
-                  </div>
-                  <p style={styles.conteudoText}>{item.text}</p>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <CommentModal postCode={item.code} />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </div>
-                <AccordionComment post={item} />
-              </CardText>
-            )}
+              <p style={styles.text}>{item.text} </p>
+              <div>
+                <img
+                  style={{ width: 521, height: 500, objectFit: "contain" }}
+                  src={`${API_PROD}/file/${item.url_media}`}
+                  alt="foto"
+                />
+              </div>
+
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon style={{ margin: 0 }} />
+              </IconButton>
+              <IconButton aria-label="share">
+                <CommentModal postCode={item.code} />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+              <a
+                onClick={() => toggleComments(item.code)}
+                style={{
+                  marginLeft: 300,
+                  color: "#999",
+                  textDecoration: "underline",
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                comentário {item.comments.length || ""}
+              </a>
+            </div>
+            {showComments[item.code] && <CommentDinamic post={item} />}
           </>
         ))}
       </Container>

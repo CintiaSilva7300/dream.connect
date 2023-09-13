@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as React from "react";
 import jwt_decode from "jwt-decode";
 import Stack from "@mui/material/Stack";
@@ -30,8 +31,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function AvatarIcon({ imagePostUser }) {
-  const token = localStorage.getItem("token");
-  const [userData, setUserData] = useState(null);
   const [country, setCountry] = useState(null);
 
   useEffect(() => {
@@ -64,17 +63,6 @@ export default function AvatarIcon({ imagePostUser }) {
     }
   }, [country]);
 
-  useEffect(() => {
-    if (token) {
-      const decodeToken = jwt_decode(token);
-      setUserData(decodeToken);
-    }
-  }, []);
-
-  if (!userData) {
-    return <p>Carregando...</p>;
-  }
-
   return (
     <div style={{ display: "block" }}>
       <Stack direction="row" spacing={2}>
@@ -97,9 +85,9 @@ export default function AvatarIcon({ imagePostUser }) {
       </Stack>
 
       {country !== null ? (
-        <div style={{ display: "flex", color: "#a2a2a2", padding: 2 }}>
+        <div style={{ display: "flex", color: "#a2a2a2", padding: 1 }}>
           <PlaceIcon style={{ width: 12, height: 12 }} />
-          <p style={{ fontSize: 10 }}>{country}</p>
+          <p style={{ fontSize: 10 }}>{country.replace("SP, ", "")}</p>
         </div>
       ) : (
         <PlaceIcon style={{ width: 12, height: 12 }} />

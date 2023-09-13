@@ -2,7 +2,7 @@ const styles = {
   fade: {
     backgroundColor: '#fff',
     borderRadius: 10,
-    height: 220,
+    height: 160,
   },
   container: {
     width: 450,

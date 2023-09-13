@@ -89,7 +89,7 @@ export default function FormSigNup() {
           }
         });
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -99,7 +99,6 @@ export default function FormSigNup() {
     api
       .post("/file/upload", formData)
       .then((response) => {
-        console.log("Arquivo enviado com sucesso:", response.data);
         setImage(response.data.teste.id);
       })
       .catch((error) => {
