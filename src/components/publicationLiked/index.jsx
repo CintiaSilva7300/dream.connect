@@ -8,6 +8,7 @@ import GradeIcon from "@mui/icons-material/Grade";
 import React, { useEffect, useState } from "react";
 
 import styles from "./styles";
+import { UserData } from "../../utils/userData";
 import api from "../../utils/Api/api";
 import CommentDinamic from "../CommentDinamic";
 import { API_PROD } from "../../utils/environments";
@@ -17,12 +18,15 @@ import { getCountryFromGeolocation } from "../../utils/geolocation.js";
 export default function PublicationLiked() {
   const [likedPosts, setLikedPosts] = useState([]);
   const [showComments, setShowComments] = useState({});
+  const token = localStorage.getItem("token");
+  const userData = UserData();
 
   const toggleComments = (postCode) => {
     setShowComments((prevState) => ({
       ...prevState,
       [postCode]: !prevState[postCode],
     }));
+    console.log(postCode);
   };
 
   useEffect(() => {
@@ -30,6 +34,7 @@ export default function PublicationLiked() {
       .get(`${API_PROD}/post/getLikedPostByUserCode`)
       .then((response) => {
         setLikedPosts(response.data);
+        // console.log("->>", response);
       })
       .catch((error) => {
         return error;
@@ -48,20 +53,25 @@ export default function PublicationLiked() {
     }
   }, [country]);
 
+  if (!token) {
+    return <p>Token não encontrado. Faça o login primeiro.</p>;
+  }
+
   return (
     <>
-      <Container
-        maxWidth="sm"
-        style={{
-          marginTop: 10,
-          fontSize: 22,
-          fontFamily: "sans-serif",
-          fontWeight: 400,
-        }}
-      >
+      <Container maxWidth="sm">
         <div style={{ display: "flex", color: "#037199" }}>
-          <p>Publicações marcadas como Favorito</p>
-          <GradeIcon style={{ margin: 0, color: "#037199", marginTop: 5 }} />
+          <p
+            style={{
+              marginTop: 10,
+              fontSize: 22,
+              fontFamily: "sans-serif",
+              fontWeight: 400,
+              color: "#037199",
+            }}
+          >
+            Seus favoritos, {userData.name + userData.secondName}
+          </p>
         </div>
 
         {likedPosts.map((item) => (
@@ -99,7 +109,12 @@ export default function PublicationLiked() {
                 </div>
                 {country !== null ? (
                   <div
-                    style={{ display: "flex", color: "#a2a2a2", padding: 1 }}
+                    style={{
+                      display: "flex",
+                      color: "#a2a2a2",
+                      padding: 1,
+                      marginLeft: 5,
+                    }}
                   >
                     <PlaceIcon style={{ width: 12, height: 12 }} />
                     <p style={{ fontSize: 10 }}>
@@ -136,7 +151,7 @@ export default function PublicationLiked() {
                     marginTop: 2,
                   }}
                 >
-                  {item.likes.length}
+                  {item.likes.length || ""}
                 </p>
               </IconButton>
               <IconButton aria-label="share">
@@ -146,7 +161,7 @@ export default function PublicationLiked() {
                 <ShareIcon />
               </IconButton>
               <a
-                onClick={() => toggleComments(item.code)}
+                // onClick={() => toggleComments(item.code)}
                 style={{
                   marginLeft: 300,
                   color: "#999",
@@ -158,7 +173,7 @@ export default function PublicationLiked() {
                 comentário {item.comments.length || ""}
               </a>
             </div>
-            {showComments[item.code] && <CommentDinamic post={item} />}
+            {showComments[item.code] && <CommentDinamic />}
           </>
         ))}
       </Container>

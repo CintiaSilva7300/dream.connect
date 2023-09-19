@@ -1,24 +1,36 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
-import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ShareIcon from "@mui/icons-material/Share";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlaceIcon from "@mui/icons-material/Place";
+import GradeIcon from "@mui/icons-material/Grade";
 
 import styles from "./styles";
 import api from "../../utils/Api/api";
 import { API_PROD } from "../../utils/environments";
 import CommentModal from "../publication/components/modalComment";
 import CommentDinamic from "../CommentDinamic";
+import { getCountryFromGeolocation } from "../../utils/geolocation";
+import { UserData } from "../../utils/userData";
 
 export default function CardToPostUser() {
-  const token = localStorage.getItem("token");
-  const [userData, setUserData] = useState(null);
   const [post, setPost] = React.useState(null);
   const [showComments, setShowComments] = useState({});
+  const [country, setCountry] = useState(null);
+  const userData = UserData();
+
+  useEffect(() => {
+    if (country === null) {
+      getCountryFromGeolocation().then((countryData) => {
+        if (countryData) {
+          setCountry(countryData);
+        }
+      });
+    }
+  }, [country]);
 
   const toggleComments = (postCode) => {
     setShowComments((prevState) => ({
@@ -28,16 +40,6 @@ export default function CardToPostUser() {
   };
 
   useEffect(() => {
-    if (token) {
-      try {
-        const decodeToken = jwt_decode(token);
-        setUserData(decodeToken);
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        setUserData(null);
-      }
-    }
-
     api
       .get(`${API_PROD}/post`)
       .then((response) => {
@@ -61,6 +63,11 @@ export default function CardToPostUser() {
   const filteredPostsToUser = post.filter(
     (singlePost) => singlePost.user.email === userData.email
   );
+
+  const teste = post.filter(
+    (singlePost) => singlePost.user.email === userData.email
+  );
+  console.log(teste.likes);
 
   return (
     <>
@@ -98,6 +105,18 @@ export default function CardToPostUser() {
                     {item.user.name}
                   </p>
                 </div>
+                {country !== null ? (
+                  <div
+                    style={{ display: "flex", color: "#a2a2a2", padding: 1 }}
+                  >
+                    <PlaceIcon style={{ width: 12, height: 12 }} />
+                    <p style={{ fontSize: 10 }}>
+                      {country.replace("SP, ", "")}
+                    </p>
+                  </div>
+                ) : (
+                  <PlaceIcon style={{ width: 12, height: 12 }} />
+                )}
               </div>
               <p style={styles.text}>{item.text} </p>
               <div>
@@ -109,8 +128,24 @@ export default function CardToPostUser() {
               </div>
 
               <IconButton aria-label="add to favorites">
-                <FavoriteIcon style={{ margin: 0 }} />
+                <GradeIcon
+                  style={{
+                    margin: 0,
+                    color: item.likes.length ? "red" : "",
+                  }}
+                />
+
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: "#6f6f6f",
+                    marginTop: 2,
+                  }}
+                >
+                  {item.likes.length || ""}
+                </p>
               </IconButton>
+
               <IconButton aria-label="share">
                 <CommentModal postCode={item.code} />
               </IconButton>
@@ -120,7 +155,7 @@ export default function CardToPostUser() {
               <a
                 onClick={() => toggleComments(item.code)}
                 style={{
-                  marginLeft: 300,
+                  marginLeft: 310,
                   color: "#999",
                   textDecoration: "underline",
                   fontSize: 14,

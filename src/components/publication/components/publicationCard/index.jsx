@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
@@ -55,7 +56,7 @@ export default function PublicationCard({ posts, userCurrent }) {
       }
     };
     fetchAllLikes();
-  }, [posts]); // Certifique-se de atualizar os likes quando os posts mudarem
+  }, [posts]);
 
   const likePost = (postCode) => {
     if (!likeStatus[postCode]) {
@@ -109,14 +110,11 @@ export default function PublicationCard({ posts, userCurrent }) {
     );
   }
 
-  console.log(posts);
-
   return (
     <Container maxWidth="sm">
       {posts.map((item) => (
         <>
-          {/* {item.url_media ? ( */}
-          <div>
+          <div key={item.code}>
             <div style={styles.box}>
               <div
                 style={{
@@ -187,6 +185,7 @@ export default function PublicationCard({ posts, userCurrent }) {
                 <IconButton aria-label="share">
                   <ShareIcon />
                 </IconButton>
+
                 <a
                   onClick={() => toggleComments(item.code)}
                   style={{
@@ -202,7 +201,6 @@ export default function PublicationCard({ posts, userCurrent }) {
               </div>
             </div>
             {showComments[item.code] && <CommentDinamic post={item} />}
-            {/* <CommentDinamic post={item} /> */}
           </div>
         </>
       ))}

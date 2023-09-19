@@ -1,17 +1,9 @@
 import Box from "@mui/joy/Box";
-import Menu from "@mui/joy/Menu";
 import jwt_decode from "jwt-decode";
 import Textarea from "@mui/joy/Textarea";
-import MenuItem from "@mui/joy/MenuItem";
 import React, { useState, useEffect } from "react";
-import IconButton from "@mui/joy/IconButton";
-import Check from "@mui/icons-material/Check";
 import FormControl from "@mui/joy/FormControl";
 import Container from "@mui/material/Container";
-import FormatBold from "@mui/icons-material/FormatBold";
-import ListItemDecorator from "@mui/joy/ListItemDecorator";
-import FormatItalic from "@mui/icons-material/FormatItalic";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 
 import api from "../../utils/Api/api";
 import { API_PROD } from "../../utils/environments";
@@ -25,9 +17,7 @@ export default function Publication() {
   const [url_media, setUrl_media] = useState();
   const [post, setPost] = React.useState(null);
   const [userData, setUserData] = useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fontWeight, setFontWeight] = React.useState("normal");
 
   useEffect(() => {
     if (token) {
@@ -128,7 +118,6 @@ export default function Publication() {
                 <img
                   style={{
                     marginTop: 10,
-
                     width: 425,
                     height: 500,
                     objectFit: "contain",
@@ -150,53 +139,9 @@ export default function Publication() {
                 flex: "auto",
               }}
             >
-              <IconButton
-                variant="plain"
-                color="neutral"
-                onClick={(event) => setAnchorEl(event.currentTarget)}
-              >
-                <FormatBold />
-                <KeyboardArrowDown fontSize="md" />
-              </IconButton>
-
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-                size="sm"
-                placement="bottom-start"
-                sx={{ "--ListItemDecorator-size": "24px" }}
-              >
-                {["200", "normal", "bold"].map((weight) => (
-                  <MenuItem
-                    key={weight}
-                    selected={fontWeight === weight}
-                    onClick={() => {
-                      setFontWeight(weight);
-                      setAnchorEl(null);
-                    }}
-                    sx={{ fontWeight: weight }}
-                  >
-                    <ListItemDecorator>
-                      {fontWeight === weight && <Check fontSize="sm" />}
-                    </ListItemDecorator>
-                    {weight === "200" ? "lighter" : weight}
-                  </MenuItem>
-                ))}
-              </Menu>
-
-              <IconButton
-                variant={italic ? "soft" : "plain"}
-                color={italic ? "primary" : "neutral"}
-                aria-pressed={italic}
-                onClick={() => setItalic((bool) => !bool)}
-              >
-                <FormatItalic />
-              </IconButton>
-
               <div>
                 <input
-                  style={{ width: 300 }}
+                  style={{ width: 300, padding: 5 }}
                   onChange={handleFileChange}
                   type="file"
                   id="teste"
@@ -206,9 +151,10 @@ export default function Publication() {
               <CustomButton
                 onClick={publication}
                 style={{
-                  width: 100,
+                  width: 155,
                   height: 30,
                   borderRadius: 20,
+                  marginLeft: 30,
                   backgroundColor: "#037199",
                 }}
               >
@@ -218,7 +164,7 @@ export default function Publication() {
           }
           sx={{
             minWidth: 300,
-            fontWeight,
+            fontWeight: "normal",
             fontStyle: italic ? "italic" : "initial",
           }}
         />

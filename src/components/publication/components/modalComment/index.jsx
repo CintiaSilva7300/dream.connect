@@ -48,7 +48,7 @@ export default function CommentModalChild({ postCode }) {
   }, []);
 
   const addEmoji = (emoji) => () => {
-    setText((prevText) => prevText + emoji); // Atualiza o estado 'text'
+    return setText((prevText) => prevText + emoji); // Atualiza o estado 'text'
   };
 
   const handleChangeValue = (e) => {
@@ -113,13 +113,12 @@ export default function CommentModalChild({ postCode }) {
           <Box style={styles.container}>
             <Textarea
               onChange={handleChangeValue}
-              id="transition-modal-title"
-              placeholder="Type in here…"
+              placeholder="Comente..."
               value={text}
               minRows={2}
               maxRows={4}
               startDecorator={
-                <Box sx={{ display: "flex", gap: 0.5 }}>
+                <Box sx={{ display: "flex", gap: 0.2 }}>
                   <IconButton
                     variant="outlined"
                     color="neutral"
@@ -141,17 +140,20 @@ export default function CommentModalChild({ postCode }) {
                   >
                     😍
                   </IconButton>
+                  <IconButton
+                    variant="outlined"
+                    color="neutral"
+                    onClick={addEmoji("😂")}
+                  >
+                    😂
+                  </IconButton>
 
                   <div>
                     <input
-                      style={{ width: 135, margin: 5 }}
+                      style={{ width: 295, margin: 5 }}
                       onChange={handleFileChange}
                       type="file"
-                      id="teste"
                     ></input>
-                    <label for="teste" style={{ margin: 5 }}>
-                      imagem
-                    </label>
                   </div>
                 </Box>
               }
