@@ -1,21 +1,69 @@
 import styled from 'styled-components';
 
-export const Box = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-`;
+
 export const Card = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
-  width: 475px;
-  height: 610px;
-  margin-top: 30px;
+  width: 510px;
+  margin-left: -15px;
+  height: 640px;
+  margin-top: 20px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  margin-bottom: 50px;
+`;
+
+export const CardText = styled.div`
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 521px;
+  height: 160px;
+  margin-top: 20px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+`;
+
+const styles = {
+  nameText: {
+    margin: 5,
+    fontFamily: 'sans-serif',
+    fontSize: 13,
+    fontWeight: 400,
+    color: '#037199',
+    cursor: 'pointer',
+  },
+  conteudoText: {
+    margin: 5,
+    fontFamily: 'sans-serif',
+    fontSize: 13,
+    fontWeight: 400,
+    color: '#037199',
+  },
+  box: {
+    boxShadow: ' 0 8px 16px 0 rgba(0, 0, 0, 0.2)',
+    marginTop: 10,
+    width: 520,
+  },
+  text: {
+    margin: 5,
+    fontFamily: 'sans-serif',
+    fontSize: 13,
+    fontWeight: 400,
+    color: '#037199',
+  },
+  lineHorizont: {
+    boxShadow:' 0 0.10px 0 0 #6f6f6f',
+    height: 1,
+    margin: '0px 0px',
+    width:'100%'
+    
+  }
+};
+export const Box = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 `;
 
 export const Marca = styled.div`
@@ -41,19 +89,13 @@ export const Form = styled.div`
   width: 50%;
   height: 100vh;
 `;
-
-export const Div = styled.div`
-  width: 50px;
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  img: { width: 465, height: 518, padding: 5 },
-};
 
 export default styles;
+

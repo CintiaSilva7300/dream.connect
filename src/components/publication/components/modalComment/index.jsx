@@ -1,5 +1,4 @@
 import * as React from "react";
-import Files from "react-files";
 import jwt_decode from "jwt-decode";
 import Box from "@mui/material/Box";
 import Button from "@mui/joy/Button";

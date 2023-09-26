@@ -34,7 +34,7 @@ export default function PublicationCard({ posts, userCurrent }) {
         const likesData = await api.get("/like");
         const allLikes = likesData.data;
 
-        // Inicialize likeStatus com os likes existentes
+        // Inicializa likeStatus com os likes existentes
         const initialLikeStatus = {};
         allLikes.forEach((like) => {
           initialLikeStatus[like.postCode] = true;
@@ -42,7 +42,7 @@ export default function PublicationCard({ posts, userCurrent }) {
         });
         setLikeStatus(initialLikeStatus);
 
-        // Atualize a contagem de likes para o post
+        // Atualiza a contagem de likes para o post
         const initialLikeCounts = {};
         posts.forEach((post) => {
           const postLikes = allLikes.filter(
@@ -71,7 +71,7 @@ export default function PublicationCard({ posts, userCurrent }) {
             [postCode]: true,
           }));
 
-          // Atualize a contagem de likes para o post
+          // Atualiza a contagem de likes para o post
           setLikeCounts((prevLikeCounts) => ({
             ...prevLikeCounts,
             [postCode]: (prevLikeCounts[postCode] || 0) + 1,

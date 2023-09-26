@@ -46,12 +46,13 @@ export default function FormSigNup() {
   const [name, setName] = useState();
   const [secondName, setSecondName] = useState();
   const [email, setEmail] = useState();
-  const [telephone, setTelephone] = useState();
+  const [telephone, setTelephone] = useState(null);
   const [genre, setGenre] = useState();
   const [image, setImage] = useState();
   const [birthDate, setBirthDate] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [errorMsg, setErrorMsg] = useState();
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -66,32 +67,57 @@ export default function FormSigNup() {
   };
 
   const loginUser = (e) => {
-    try {
-      api
-        .post("/user", {
-          name,
-          secondName,
-          email,
-          telephone,
-          genre,
-          birthDate,
-          image,
-          password,
-          confirmPassword,
-        })
-        .then((response) => {
+    api
+      .post("/user", {
+        name,
+        secondName,
+        email,
+        telephone,
+        genre,
+        birthDate,
+        image,
+        password,
+        confirmPassword,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          // Verifica se a resposta é bem-sucedida
           localStorage.setItem("token", response.data.token);
-          if (response.data === false) {
-            navigate("/login");
-          } else {
-            handleFileUpload();
-            navigate("/");
-          }
-        });
-    } catch (err) {
-      return err;
-    }
+          navigate("/");
+        } else {
+          // Se a resposta não for bem-sucedida, lida com o erro
+          setErrorMsg("Erro na requisição: " + response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.log("---->>>", error.response.data.message);
+        setErrorMsg(error.message);
+      });
   };
+
+  // const loginUser = (e) => {
+  //   api
+  //     .post("/user", {
+  //       name,
+  //       secondName,
+  //       email,
+  //       telephone,
+  //       genre,
+  //       birthDate,
+  //       image,
+  //       password,
+  //       confirmPassword,
+  //     })
+  //     .then((response) => {
+  //       localStorage.setItem("token", response.data.token);
+  //       if (response.data.token) {
+  //         navigate("/");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setErrorMsg(error.message);
+  //     });
+  // };
 
   const handleFileUpload = (file) => {
     const formData = new FormData();

@@ -1,9 +1,10 @@
 import React from "react";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import FacebookLogin from "react-facebook-login";
 import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-
-import FacebookLogin from "react-facebook-login";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Visibility from "@mui/icons-material/Visibility";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -24,6 +25,7 @@ export default function FormLogin() {
   const [password, setPassword] = useState();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -41,18 +43,17 @@ export default function FormLogin() {
   const sendFacebookDataToBackend = (facebookData) => {
     const profilePictureUrl = facebookData.picture.data.url;
 
+    // if (facebookData) {
+    //   return alert("Autenticação esta em faze de implementação");
+    // }
+
     fetch(profilePictureUrl)
       .then((response) => response.arrayBuffer())
-      .then((buffer) => {
-        console.log(buffer);
-      })
       .catch((error) => {
         console.error("Erro ao baixar a imagem de perfil:", error);
       });
 
     file = facebookData.picture.data.url;
-
-    console.log("img", file);
 
     api
       .post("/user", {
@@ -169,7 +170,7 @@ export default function FormLogin() {
         Não tem conta?
       </a>
 
-      <img src={file} alt="" height={50} width={50} />
+      {/* <img src={file} alt="Profile Picture" width="50" height="100" /> */}
     </div>
   );
 }
